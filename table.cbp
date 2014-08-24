@@ -39,6 +39,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="src/dice.hpp" />
 		<Unit filename="src/main.cpp" />
 		<Extensions>
 			<code_completion />
