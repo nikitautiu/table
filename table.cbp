@@ -40,6 +40,8 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="src/dice.hpp" />
+		<Unit filename="src/game.cpp" />
+		<Unit filename="src/game.hpp" />
 		<Unit filename="src/main.cpp" />
 		<Extensions>
 			<code_completion />
