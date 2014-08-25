@@ -1,25 +1,14 @@
 #include "game.hpp"
 namespace table {
+    Point::Point(void) : color(), number() {}
 
-    Board::Board(void) : points(),
-                         current_player(),
-                         current_dice(),
-                         done(),
-                         out(),
-                         starting_phase(),
-                         is_game_won(),
-                         remaining_moves()
-    {
-        points[0] = points[NUM_POINTS-1] = 2;
-        points[5] = points[NUM_POINTS-6] = 5;
-        points[7] = points[NUM_POINTS-8] = 3;
-        points[12] = points[NUM_POINTS-13] = 5;
+    Point::Point(Color p_color, int p_number) : color(p_color), number(p_number) {}
 
-    }
+    Point::Point(Point other) : number(other.number), color(other.color) { }
 
-    Point::Point(Color p_color, int p_number) {
-        this->color = p_color;
-        this->number = p_number;
+    Point& Point::operator=(Point other) {
+        this->number = other.number;
+        this->color = other.color;
     }
 
     Point& Point::operator+=(int num) {
@@ -70,5 +59,22 @@ namespace table {
 
     bool operator!=(Point a, Point b) {
         return !(a.color == b.color && a.number == b.number);
+    }
+
+
+    Board::Board(void) : points(),
+                         current_player(),
+                         current_dice(),
+                         done(),
+                         out(),
+                         starting_phase(),
+                         is_game_won(),
+                         remaining_moves()
+    {
+        points[0] = points[NUM_POINTS-1] = 2;
+        points[5] = points[NUM_POINTS-6] = 5;
+        points[7] = points[NUM_POINTS-8] = 3;
+        points[12] = points[NUM_POINTS-13] = 5;
+
     }
 }

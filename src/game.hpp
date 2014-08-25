@@ -19,7 +19,10 @@ namespace table {
         Color color;
         int number;
 
+        Point(void);
         Point(Color, int);
+        Point(Point);
+        Point& operator=(Point);
 
         Point& operator+=(int);
         Point& operator-=(int);
