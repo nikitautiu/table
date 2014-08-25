@@ -49,7 +49,7 @@ namespace table {
     public:
         Board(void); // constructor inplicit
         Board(const Board&); // constructor copiere
-        Board operator=(const Board&); // operator copiere
+        Board& operator=(const Board&); // operator copiere
 
         bool is_won(void) const {
             // zice daca ii gata partida
