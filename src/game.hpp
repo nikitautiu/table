@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <array>
+#include <vector>
 #include <utility>
 
 namespace table {
@@ -41,9 +42,10 @@ namespace table {
         std::array <unsigned int, 2> done;
         std::array <unsigned int, 2> out;
 
-        pair <int, int> current_dice;
+        std::pair <int, int> current_dice;
         bool starting_phase;
-        vector <int> remaining_moves;
+        bool is_game_won;
+        std::vector <int> remaining_moves;
     public:
         Board(void); // constructor inplicit
         Board(const Board&); // constructor copiere
@@ -79,9 +81,9 @@ namespace table {
         }
 
         void roll_dice(void);
-        pair <int, int> get_dice(void) const;
+        std::pair <int, int> get_dice(void) const;
 
-        const array <Point, NUM_POINTS> get_tabla(void) const {
+        const std::array <Point, NUM_POINTS> get_tabla(void) const {
             // returneaza reprezentarea tablei
             return this->points;
         }
@@ -89,7 +91,7 @@ namespace table {
         bool is_move_legal(int, int) const; // verifica daca se poate muta de pe o pozitie cu cateva mutari in fata
         bool move_checker(int, int); // se muta. parametrii identici. returneaza fals si nu muta daca mutarea e ilegala
         std::vector <int> get_remaining_moves(void) const;
-        std::vector <pair <int, int>> get_legal_moves(void) const; // returneaza perechi (pozitie, mutare)
+        std::vector <std::pair <int, int>> get_legal_moves(void) const; // returneaza perechi (pozitie, mutare)
     };
 }
 

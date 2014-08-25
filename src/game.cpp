@@ -1,4 +1,4 @@
-#include "core.hpp"
+#include "game.hpp"
 namespace table {
     Point::Point(Color p_color, int p_number) {
         this->color = p_color;
@@ -8,29 +8,33 @@ namespace table {
 
     Point& Point::operator+=(int num) {
         this->number += num;
+        return (*this);
     }
 
     Point& Point::operator-=(int num) {
         this->number -= num;
+        return (*this);
     }
 
     Point& Point::operator++(void) {
         ++(this->number);
+        return (*this);
     }
 
     Point Point::operator++(int) {
         Point* old = this;
         ++(*this);
-        reutnr *old;
+        return (*old);
     }
 
     Point& Point::operator--(void) {
         --(this->number);
+        return (*this);
     }
 
     Point Point::operator--(int) {
         Point* old = this;
         --(*this);
-        reutnr *old;
+        return (*old);
     }
 }
