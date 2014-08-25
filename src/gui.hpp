@@ -21,7 +21,26 @@ namespace table
 		{
 
 		}
-		
+
+		void points()
+		{
+
+		}
+
+		void turn()
+		{
+
+		}
+
+		void score()
+		{
+
+		}
+
+		void margin()
+		{
+
+		}
 	};
 }
 
