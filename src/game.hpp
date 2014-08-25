@@ -28,6 +28,12 @@ namespace table {
         Point operator--(int);
     };
 
+    // operatori non-member non-friend
+    const Point operator+(Point, int); // audauga un nr de puluri
+    const Point operator-(Point, int);
+    bool operator==(Point, Point); // operatori de compararare
+    bool operator!=(Point, Point);
+
     class Board {
     private:
         std::array <Point, NUM_POINTS> points;
@@ -52,7 +58,7 @@ namespace table {
             // daca ii gata partida, returneaza castigatorul
             if(done[0] == 0 and out[0] == 0)
                 return Color::WHITE;
-            else if(done[1] == 0 and out[1])
+            else if(done[1] == 0 and out[1] == 0)
                 return Color::BLACK;
         }
 
@@ -66,6 +72,10 @@ namespace table {
             // primeste culoare si returneaza cate de culoarea aia o terminat
             int poz = (color ==  Color::WHITE ? 0 : 1);
             return done[poz];
+        }
+
+        bool is_starting_phase(void) const {
+            return starting_phase;
         }
 
         void roll_dice(void);
