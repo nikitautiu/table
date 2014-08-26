@@ -4,11 +4,12 @@ namespace table {
 
     Point::Point(Color p_color, int p_number) : color(p_color), number(p_number) {}
 
-    Point::Point(Point other) : number(other.number), color(other.color) { }
+    Point::Point(const Point& other) : color(other.color), number(other.number) {}
 
-    Point& Point::operator=(Point other) {
+    Point& Point::operator=(const Point& other) {
         this->number = other.number;
         this->color = other.color;
+        return (*this);
     }
 
     Point& Point::operator+=(int num) {

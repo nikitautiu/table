@@ -21,8 +21,8 @@ namespace table {
 
         Point(void);
         Point(Color, int);
-        Point(Point);
-        Point& operator=(Point);
+        Point(const Point&);
+        Point& operator=(const Point&);
 
         Point& operator+=(int);
         Point& operator-=(int);
@@ -56,7 +56,7 @@ namespace table {
 
         bool is_won(void) const {
             // zice daca ii gata partida
-            return this->is_game_won;
+            return (this->is_game_won);
         }
 
         Color get_winner(void) const {
