@@ -12,7 +12,7 @@ ofstream g("dicerolltest.out");
 int main(void) {
     //std::cout << "Primul commit la proiectul table";
 
-    for (int i = 0; i < 1000000; ++i) // 1 milion de aruncari cu 2 zaruri, 23 secunde pe AMD PHENOM 2 X4 3.2 Ghz
+    for (int i = 0; i < 10000000; ++i) // 1 milion de aruncari cu 2 zaruri, 23 secunde pe AMD PHENOM 2 X4 3.2 Ghz
     {
         pair<int, int> p;
         p = DoubleDiceRoll();

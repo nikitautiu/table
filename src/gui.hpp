@@ -39,7 +39,10 @@ namespace table
 
 		void margin()
 		{
-
+			for (int i = 3; i <= 17; ++i)
+			{
+				draw
+			}
 		}
 	};
 }
