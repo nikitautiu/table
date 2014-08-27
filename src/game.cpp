@@ -1,4 +1,6 @@
 #include "game.hpp"
+
+
 namespace table {
     Point::Point(void) : color(), number() {}
 
@@ -64,11 +66,11 @@ namespace table {
 
     Board::Board(void) : points(),
                          current_player(),
+                         winner(),
+                         current_phase(),
                          done(),
                          out(),
                          current_dice(),
-                         starting_phase(),
-                         is_game_won(),
                          remaining_moves()
     {
         points[0] = Point(Color::WHITE, 2), points[NUM_POINTS-1] = Point(Color::BLACK, 2);
@@ -77,57 +79,20 @@ namespace table {
         points[12]= Point(Color::WHITE, 5), points[NUM_POINTS-13]= Point(Color::BLACK, 5);
     }
 
-    Board::Board(const Board& board) {
+    Board::Board(const Board& other) : points(other.points),
+                                       current_player(other.current_player),
+                                       winner(other.winner),
+                                       current_phase(other.current_phase),
+                                       done(other.done),
+                                       out(other.out),
+                                       current_dice(other.current_dice),
+                                       remaining_moves(other.remaining_moves) {}
 
-        int c = 0;
-        for (const auto i : board.points )
-            this->points[c++] = i;
+    Board& Board::operator=(Board other) {
+        // check for assignment to self
+        if ( this != &other )
+            std::swap((*this), other);
+        return (*this);
 
-        this->current_player = board.current_player;
-
-        c = 0;
-        for ( const auto i : board.done )
-            this->done[c++] = i;
-
-        c = 0;
-        for ( const auto i : board.out )
-            this->out[c++] = i;
-
-        this->current_dice = board.current_dice;
-        this->starting_phase = board.starting_phase;
-        this->is_game_won = board.is_game_won;
-
-        c = 0;
-        for ( auto i : board.remaining_moves )
-            this->remaining_moves[c++] = i;
-    }
-
-    Board& Board::operator=(const Board& board) {
-
-                         // check for assignment to self
-        if ( this != &board ) {
-            int c = 0;
-            for (const auto i : board.points )
-                this->points[c++] = i;
-
-            this->current_player = board.current_player;
-
-            c = 0;
-            for ( const auto i : board.done )
-                this->done[c++] = i;
-
-            c = 0;
-            for ( const auto i : board.out )
-                this->out[c++] = i;
-
-            this->current_dice = board.current_dice;
-            this->starting_phase = board.starting_phase;
-            this->is_game_won = board.is_game_won;
-
-            c = 0;
-            for ( auto i : board.remaining_moves )
-                this->remaining_moves[c++] = i;
-        }
-        return *this;
     }
 }

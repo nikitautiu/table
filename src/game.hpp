@@ -5,6 +5,7 @@
 #include <array>
 #include <vector>
 #include <utility>
+#include <exception>
 
 namespace table {
     const int NUM_POINTS = 24;
@@ -38,33 +39,32 @@ namespace table {
     bool operator==(Point, Point); // operatori de compararare
     bool operator!=(Point, Point);
 
+    enum class GamePhase : int8_t {
+        STARTING, GAME, NORMAL_WIN, TECHNICAL_WIN
+    };
+
     class Board {
     private:
         std::array <Point, NUM_POINTS> points;
         Color current_player;
+        Color winner;
+        GamePhase current_phase;
+
         std::array <unsigned int, 2> done;
         std::array <unsigned int, 2> out;
 
         std::pair <int, int> current_dice;
-        bool starting_phase;
-        bool is_game_won;
         std::vector <int> remaining_moves;
     public:
         Board(void); // constructor inplicit
         Board(const Board&); // constructor copiere
-        Board& operator=(const Board&); // operator copiere
-
-        bool is_won(void) const {
-            // zice daca ii gata partida
-            return (this->is_game_won);
-        }
+        Board& operator=(Board); // operator copiere
 
         Color get_winner(void) const {
             // daca ii gata partida, returneaza castigatorul
-            if(done[0] == 0 and out[0] == 0)
-                return Color::WHITE;
-            else if(done[1] == 0 and out[1] == 0)
-                return Color::BLACK;
+            if(current_phase != GamePhase::NORMAL_WIN && current_phase != GamePhase::TECHNICAL_WIN)
+                throw std::runtime_error("No winner yet"); // daca nu, exceptie
+            return winner;
         }
 
         int get_out(Color color) const {
@@ -79,8 +79,8 @@ namespace table {
             return done[poz];
         }
 
-        bool is_starting_phase(void) const {
-            return starting_phase;
+        GamePhase get_phase(void) const {
+            return current_phase;
         }
 
         void roll_dice(void);
@@ -88,7 +88,7 @@ namespace table {
 
         const std::array <Point, NUM_POINTS> get_tabla(void) const {
             // returneaza reprezentarea tablei
-            return this->points;
+            return points;
         }
 
         bool is_move_legal(int, int) const; // verifica daca se poate muta de pe o pozitie cu cateva mutari in fata
