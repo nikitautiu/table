@@ -23,7 +23,7 @@ namespace table {
         Point(void);
         Point(Color, int);
         Point(const Point&);
-        Point& operator=(const Point&);
+        Point& operator=(Point);
 
         Point& operator+=(int);
         Point& operator-=(int);
@@ -84,7 +84,10 @@ namespace table {
         }
 
         void roll_dice(void);
-        std::pair <int, int> get_dice(void) const;
+
+        std::pair <int, int> get_dice(void) const {
+            return current_dice;
+        }
 
         const std::array <Point, NUM_POINTS> get_tabla(void) const {
             // returneaza reprezentarea tablei

@@ -8,9 +8,9 @@ namespace table {
 
     Point::Point(const Point& other) : color(other.color), number(other.number) {}
 
-    Point& Point::operator=(const Point& other) {
-        this->number = other.number;
-        this->color = other.color;
+    Point& Point::operator=(Point other) {
+        if(this != &other)
+            std::swap((*this), other);
         return (*this);
     }
 
