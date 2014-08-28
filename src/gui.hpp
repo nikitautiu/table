@@ -2,6 +2,7 @@
 #define _GUI_
 
 #include <iostream>
+#include "game.hpp"
 
 namespace table
 {
@@ -9,19 +10,19 @@ namespace table
 	{
 	private:
 		char draw[44][20];
+		Board act;
 	public:
-		void show()
-		{
-			  for (int i = 0; i <= 20; ++i)
-				for (int j = 0; j <= 44)
-					std::cout << draw[i][j];
-				  
-	}
-		void droll()
+		gui(void); //constructor default
+
+		void draw(void) //tabla, zaruri si mutari posibile
 		{
 
 		}
-		
+
+		void info(void) //scor, rand, text
+		{
+			
+		}
 	};
 }
 
