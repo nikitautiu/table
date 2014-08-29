@@ -2,10 +2,6 @@
 #define _GUI_
 
 #include <iostream>
-#include <cstdint>
-#include <array>
-#include <vector>
-#include <utility>
 #include "game.hpp"
 
 namespace table
@@ -139,6 +135,14 @@ namespace table
 			m[18][12] = bs.get_done(Color::WHITE);
 			m[18][8] = bs.get_out(Color::BLACK); //scoase
 			m[18][10] = bs.get_out(Color::WHITE);
+
+			zario = temp.get_remaining_moves();
+			xz = 35;
+			for (int i : zario)
+			{
+				m[i][10] = i;
+				xz += 2;
+			}
 		}
 
 		void update(Backgammon temp) // zaruri ,scoase, iesite si mutari posibile
@@ -147,13 +151,7 @@ namespace table
 			
 
 			HelperBoard hb = HelperBoard(temp); //zaruri
-			zario = hb.get_remaining_moves();
-			xz = 35;
-			for (int i : zario)
-			{
-				m[i][10] = i;
-				xz += 2;
-			}
+			
 
 			
 
