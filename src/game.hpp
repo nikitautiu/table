@@ -154,8 +154,10 @@ struct BoardState {
     private:
         BoardState current_board_state; // asta se initializeaza din bagamon. dupa se modifica cand se fac mutari
         Color player; // playeru care face mutaorile
-        DicecPair dices; // zarurile cu care se lucreaza
-        std::multiset remaining_moves; // mutarile ramase cu care se lucreaza
+        DicePair dices; // zarurile cu care se lucreaza
+        Turn history;   // se pusheaza aici toate mutarile ( first = poz.init, second = nr mutari )
+        std::multiset<int> remaining_moves; // mutarile ramase cu care se lucreaza
+
 
     public:
         // clasa pe care poti face mutari, da undo, verifica legalitatea lor etc
@@ -169,8 +171,8 @@ struct BoardState {
         void push_move(CheckerMove); // face o mutare. daca ilegala, arunca exceptie
         void pop_move(void); // da undo la ultima mutare
 
-        std::set <CheckerMove> get_immediately_legal_moves(void) const; // returneaza mutarile de cate un pul imediat legale(prima data cele obligatorii)
-        std::multiset <int> get_remaining_moves(void) const; // returneaza mutarile ramase
+        std::set<CheckerMove> get_immediately_legal_moves(void) const; // returneaza mutarile de cate o pula imediat legale(prima data cele obligatorii)
+        std::multiset<int> get_remaining_moves(void) const; // returneaza mutarile ramase
         bool is_turn_done(void) const; // verifica daca s-a facut o tura completa legala
     };
 }

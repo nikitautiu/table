@@ -118,9 +118,34 @@ namespace table {
 *******************************************************************************/
 
 
-    HelperBoard::HelperBoard(void) {}
-    HelperBoard::HelperBoard(const Backgammon&) {}
-    HelperBoard::HelperBoard(const HelperBoard&) {}
+    HelperBoard::HelperBoard(void) : current_board_state(),
+                                     player(),
+                                     dices(),
+                                     remaining_moves() {
+    }
+
+    HelperBoard::HelperBoard(const Backgammon& other) : current_board_state(other.get_board_state()),
+                                                        player(other.get_current_player()),
+                                                        dices(other.get_dice()),
+                                                        remaining_moves() {
+
+        if ( dices.first == dices.second )
+            for (int i = 0; i < 4; ++i)
+                remaining_moves.insert(dices.first);
+        else
+            remaining_moves.insert(dices.first),
+            remaining_moves.insert(dices.second);
+    }
+
+
+    HelperBoard::HelperBoard(const HelperBoard& other) : current_board_state(other.current_board_state),
+                                                         player(other.player),
+                                                         dices(other.dices),
+                                                         remaining_moves(other.remaining_moves)
+
+
+    {
+    }
 
     HelperBoard& HelperBoard::operator=(HelperBoard other)  {
         if ( this != &other )
@@ -128,12 +153,40 @@ namespace table {
         return (*this);
     }
 
-    //TODO: USE CONSTRUCTOR IF AVAILABLE
     BoardState HelperBoard::get_board_state(void) const {
-
+        return current_board_state;
     }
 
     Turn HelperBoard::get_turn(void) const {
-
+        return history;
     }
+
+    void HelperBoard::push_move(CheckerMove checkerMove) {
+        history.push_back(checkerMove);
+    }
+
+    void HelperBoard::pop_move(void) {
+        history.pop_back();
+    }
+/******************************************
+    STILL NEED RULES HEADER, DO NOT MODIFY
+********************************************/
+    std::set<CheckerMove> HelperBoard::get_immediately_legal_moves(void) const {
+        std::set<CheckerMove> TODO;
+        return TODO; // Anti-Warning, compile
+    }
+
+    std::multiset<int> HelperBoard::get_remaining_moves(void) const {
+        std::multiset<int> TODO;
+        return TODO; // Anti-Warning, compile
+    }
+
+    bool HelperBoard::is_turn_done(void) const {
+        bool TODO = true;
+        return TODO; // Anti-Warning, compile
+    }
+
+/******************************************
+STILL NEED RULES HEADER, DO NOT MODIFY
+********************************************/
 }
