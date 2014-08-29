@@ -2,18 +2,60 @@
 #define _GUI_
 
 #include <iostream>
+#include <cstdint>
+#include <array>
+#include <vector>
+#include <utility>
 #include "game.hpp"
 
 namespace table
 {	
-	class gui
+	class guiobj
 	{
 	private:
 		char m[45][21];
 		int xz;
+		int dxd;
+		int dxu;
 		std::vector <int> zario;
+		std::array <Point, NUM_POINTS> poz;
+
+		void fillup(int dx, Point pt) // metoda umplere punct de pe interfata
+		{
+			char pul;
+			if (pt.color == Color::BLACK)
+				pul = '@';
+			else
+				pul = 'O';
+			int t = 4 + pt.number;
+			if (pt.number > 5)
+			{
+				t = 4;
+				m[dx][8] = (pt.number - 5);
+			}
+			for (int i = 4; i < t; ++i)
+				m[dx][i] = pul;
+		}
+
+		void filldown(int dx, Point pt) // metoda umplere punct de pe interfata
+		{
+			char pul;
+			if (pt.color == Color::BLACK)
+				pul = '@';
+			else
+				pul = 'O';
+			int t = 4 + pt.number;
+			if (pt.number > 5)
+			{
+				t = 4;
+				m[dx][12] = (pt.number - 5);
+			}
+			for (int i = 16; i > t; --i)
+				m[dx][i] = pul;
+		}
+
 	public:
-		gui(void); //constructor default
+		guiobj(void); //constructor default
 
 		void draw(void) //afisare matrice pe consola
 		{
@@ -21,8 +63,8 @@ namespace table
 			for (int i = 0; i < 21; ++i)
 			{
 				for (int j = 0; j < 45; ++j)
-					cout << m[j][i];
-				cout << '\n';
+					std::cout << m[j][i];
+				std::cout << '\n';
 			}
 		}
 
@@ -30,47 +72,86 @@ namespace table
 		{
 			for (int i = 0; i < 45; ++i) //orizontal
 			{
-				m[i][0] = "-";
-				m[i][20] = "-";
+				m[i][0] = '-';
+				m[i][20] = '-';
 
 				if (i >= 3 && i <= 33)
 				{
-					m[i][3] = "-";
-					m[i][18] = "-";
+					m[i][3] = '-';
+					m[i][18] = '-';
 				}
 			}
 
 			for (int i = 0; i < 21; ++i) //vertical
 			{
-				m[0][i] = "|";
-				m[44][i] = "|";
+				m[0][i] = '|';
+				m[44][i] = '|';
 
 				if (i >= 4 && i <= 17)
 				{
-					m[3][i] = "|";
-					m[17][i] = "|";
-					m[19][i] = "|";
-					m[33][i] = "|";
+					m[3][i] = '|';
+					m[17][i] = '|';
+					m[19][i] = '|';
+					m[33][i] = '|';
 				}
 
 			}
 
 		}
 
-		void update(table::Board temp) //tabla, zaruri ,scoase, iesite si mutari posibile
+		void update(Board temp) //tabla, cursor, zaruri ,scoase, iesite si mutari posibile
 		{
+			poz = temp.get_tabla(); //tabla
+			
+			dxd = 5;
+			dxu = 31;
+
+			for (int i = 0; i < 6; ++i)
+			{
+				filldown(dxd, poz[i]);
+				dxd += 2;
+			}
+
+			dxd = 21;
+
+			for (int i = 6; i < 12; ++i)
+			{
+				filldown(dxd, poz[i]);
+				dxd += 2;
+			}
+
+			for (int i = 12; i < 18; ++i)
+			{
+				fillup(dxu, poz[i]);
+				dxu -= 2;
+			}
+
+			dxu = 15;
+
+			for (int i = 18; i < 24; ++i)
+			{
+				fillup(dxu, poz[i]);
+				dxu -= 2;
+			}
+
+				
 			zario = temp.get_remaining_moves(); //zaruri
 			xz = 35;
 			for (int i : zario)
 			{
-				m[x][10] = i;
+				m[i][10] = i;
 				xz += 2;
 			}
 
-			
+			m[18][6] = temp.get_done(Color::BLACK); //iesite
+			m[18][12] = temp.get_done(Color::WHITE);
+			m[18][8] = temp.get_out(Color::BLACK); //scoase
+			m[18][10] = temp.get_out(Color::WHITE);
+
+
 		}
 
-		void info(table::Board temp) //scor, rand, text
+		void info(Board temp) //scor, rand, text, stare joc
 		{
 			
 		}
