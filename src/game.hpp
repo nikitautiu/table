@@ -152,7 +152,10 @@ struct BoardState {
 *******************************************************************************/
     class HelperBoard {
     private:
-
+        BoardState current_board_state; // asta se initializeaza din bagamon. dupa se modifica cand se fac mutari
+        Color player; // playeru care face mutaorile
+        DicecPair dices; // zarurile cu care se lucreaza
+        std::multiset remaining_moves; // mutarile ramase cu care se lucreaza
 
     public:
         // clasa pe care poti face mutari, da undo, verifica legalitatea lor etc
