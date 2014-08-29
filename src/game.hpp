@@ -4,18 +4,35 @@
 #include <cstdint>
 #include <array>
 #include <vector>
+#include <set>
 #include <utility>
 #include <exception>
 
 namespace table {
+
+/******************************************************************************
+                            DEFINES AND ENUMS
+*******************************************************************************/
     const int NUM_POINTS = 24;
     const int NUM_CHECKERS_PER_PLAYER = 15;
+
+    using CheckerMove = std::pair <int, int>;
+    using Turn = std::vector <CheckerMove>;
+    using PointArray = std::array <Point, NUM_POINTS>;
+
+    enum class GamePhase : int8_t {
+        STARTING, GAME, NORMAL_WIN, TECHNICAL_WIN
+    };
 
     enum class Color : int8_t {
         // tipurile de table/jucatori
         WHITE = -1, BLACK = 1
     };
 
+
+/******************************************************************************
+                        POINT CLASS
+*******************************************************************************/
     struct Point {
         Color color;
         int number;
@@ -39,13 +56,13 @@ namespace table {
     bool operator==(Point, Point); // operatori de compararare
     bool operator!=(Point, Point);
 
-    enum class GamePhase : int8_t {
-        STARTING, GAME, NORMAL_WIN, TECHNICAL_WIN
-    };
 
-    class Board {
+/******************************************************************************
+                        BACKGAMMON CLASS
+*******************************************************************************/
+    class Backgammon {
     private:
-        std::array <Point, NUM_POINTS> points;
+        PointArray points;
         Color current_player;
         Color winner;
         GamePhase current_phase;
@@ -56,9 +73,11 @@ namespace table {
         std::pair <int, int> current_dice;
         std::vector <int> remaining_moves;
     public:
-        Board(void); // constructor inplicit
-        Board(const Board&); // constructor copiere
-        Board& operator=(Board); // operator copiere
+        Backgammon(void); // constructor inplicit
+        Backgammon(const Backgammon&); // constructor copiere
+        Backgammon& operator=(Backgammon); // operator copiere
+
+        void intialize(void);
 
         Color get_winner(void) const {
             // daca ii gata partida, returneaza castigatorul
@@ -89,15 +108,36 @@ namespace table {
             return current_dice;
         }
 
-        const std::array <Point, NUM_POINTS> get_tabla(void) const {
+        const PointArray get_point_array(void) const {
             // returneaza reprezentarea tablei
             return points;
         }
 
-        bool is_move_legal(int, int) const; // verifica daca se poate muta de pe o pozitie cu cateva mutari in fata
-        bool move_checker(int, int); // se muta. parametrii identici. returneaza fals si nu muta daca mutarea e ilegala
-        std::vector <int> get_remaining_moves(void) const;
-        std::vector <std::pair <int, int>> get_legal_moves(void) const; // returneaza perechi (pozitie, mutare)
+        void submint_turn(Turn); // trimite un set de mutari. daca sunt ilegale arunca exceptie. daca nu, efectueaza
+        std::set <Turn> get_legal_moves(void) const; // returneaza toate seturile de mutari valide
+
+/// DE IMPLEMENTAT, metode care primesc o tabla si returneaza mutari legale etc. Informatiile
+/// sunt necesare si pt alte clase
+    };
+
+
+/******************************************************************************
+                        HELPERBOARD CLASS
+*******************************************************************************/
+    class HelperBoard {
+    public:
+        // clasa pe care poti face mutari, da undo, verifica legalitatea lor etc
+        HelperBoard(void);
+        HelperBoard(const Backgammon&); // initializeaza o tabla temporara din clasa de joc
+        HelperBoard(const HelperBoard&); // constructor copiere
+        operator=(const HelperBoard&); // operator copiere
+
+        Turn get_turn(void) const; // returneaza mutarile de pana acuma
+        void push_move(CheckerMove); // face o mutare, aceleasi verificari de legalitate
+        void pop_move(void); // da undo la ultima mutare
+
+        std::set <CheckerMove> get_immediately_legal_moves(void) const; // returneaza mutarile de cate un pul imediat legale
+        /// etc etc etc
     };
 }
 
