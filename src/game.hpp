@@ -151,12 +151,16 @@ struct BoardState {
                         HELPERBOARD CLASS
 *******************************************************************************/
     class HelperBoard {
+    private:
+
+
     public:
         // clasa pe care poti face mutari, da undo, verifica legalitatea lor etc
         HelperBoard(void);
         HelperBoard(const Backgammon&); // initializeaza o tabla temporara din clasa de joc
         HelperBoard(const HelperBoard&); // constructor copiere
-        HelperBoard& operator=(const HelperBoard&); // operator copiere
+        HelperBoard& operator=(HelperBoard); // operator copiere
+        BoardState get_board_state(void) const;
 
         Turn get_turn(void) const; // returneaza mutarile de pana acuma
         void push_move(CheckerMove); // face o mutare. daca ilegala, arunca exceptie

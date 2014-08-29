@@ -1,5 +1,5 @@
 #include "game.hpp"
-
+#include "dice.hpp"
 
 namespace table {
 /******************************************************************************
@@ -75,19 +75,65 @@ namespace table {
                                    current_player(),
                                    winner(),
                                    current_phase(),
-                                   current_dice() {}
+                                   current_dice()  {
+    }
 
     Backgammon::Backgammon(const Backgammon& other) : current_board_state(other.current_board_state),
                                                       current_player(other.current_player),
                                                       winner(other.winner),
                                                       current_phase(other.current_phase),
-                                                      current_dice(other.current_dice) {}
+                                                      current_dice(other.current_dice) {
+    }
 
     Backgammon& Backgammon::operator=(Backgammon other) {
         // check for assignment to self
         if ( this != &other )
             std::swap((*this), other);
         return (*this);
+
+    }
+
+    void Backgammon::roll_dice(void) {
+        if ( this->current_phase != GamePhase::STARTING )
+            this->current_dice = double_dice_roll();
+        else
+        {
+            DicePair roll_1 = double_dice_roll();
+            DicePair roll_2 = double_dice_roll();
+
+            if ( roll_1.first + roll_1.second > roll_2.first + roll_2.second )
+                current_player = Color::WHITE;
+            else
+                current_player = Color::BLACK;
+        }
+    }
+
+    void Backgammon::submit_turn(Turn) {
+            //TODO: HEADER 'RULES'
+    }
+
+
+/******************************************************************************
+                        HELPERBOARD CLASS
+*******************************************************************************/
+
+
+    HelperBoard::HelperBoard(void) {}
+    HelperBoard::HelperBoard(const Backgammon&) {}
+    HelperBoard::HelperBoard(const HelperBoard&) {}
+
+    HelperBoard& HelperBoard::operator=(HelperBoard other)  {
+        if ( this != &other )
+            std::swap((*this), other);
+        return (*this);
+    }
+
+    //TODO: USE CONSTRUCTOR IF AVAILABLE
+    BoardState HelperBoard::get_board_state(void) const {
+
+    }
+
+    Turn HelperBoard::get_turn(void) const {
 
     }
 }
