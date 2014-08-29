@@ -71,33 +71,17 @@ namespace table {
 /******************************************************************************
                         BACKGAMMON CLASS
 *******************************************************************************/
-    Backgammon::Backgammon(void) : points(),
+    Backgammon::Backgammon(void) : current_board_state(),
                                    current_player(),
                                    winner(),
                                    current_phase(),
-                                   done(),
-                                   out(),
-                                   current_dice(),
-                                   remaining_moves() { }
+                                   current_dice() {}
 
-    void Backgammon::initialize(void) {
-        (*this) = Backgammon(); // reinitializeaza cu nul
-        current_phase = GamePhase::STARTING;
-
-        points[0] = Point(Color::WHITE, 2), points[NUM_POINTS-1] = Point(Color::BLACK, 2);
-        points[5] = Point(Color::WHITE, 5), points[NUM_POINTS-6] = Point(Color::BLACK, 5);
-        points[7] = Point(Color::WHITE, 3), points[NUM_POINTS-8] = Point(Color::BLACK, 3);
-        points[12]= Point(Color::WHITE, 5), points[NUM_POINTS-13]= Point(Color::BLACK, 5);
-    }
-
-    Backgammon::Backgammon(const Backgammon& other) : points(other.points),
+    Backgammon::Backgammon(const Backgammon& other) : current_board_state(other.current_board_state),
                                                       current_player(other.current_player),
                                                       winner(other.winner),
                                                       current_phase(other.current_phase),
-                                                      done(other.done),
-                                                      out(other.out),
-                                                      current_dice(other.current_dice),
-                                                      remaining_moves(other.remaining_moves) {}
+                                                      current_dice(other.current_dice) {}
 
     Backgammon& Backgammon::operator=(Backgammon other) {
         // check for assignment to self
