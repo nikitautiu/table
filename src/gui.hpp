@@ -64,7 +64,7 @@ namespace table
 			}
 		}
 
-		void margin(void) //margine interfata si desenare tabla
+		void initialize(void) //margine interfata si desenare tabla
 		{
 			for (int i = 0; i < 45; ++i) //orizontal
 			{
@@ -95,9 +95,10 @@ namespace table
 
 		}
 
-		void game(HelperBoard temp) //tabla si cursor
+		void update(HelperBoard temp) //tabla, iesite, scoase, zaruri si cursor
 		{
 			BoardState bs = temp.get_board_state();
+
 			poz = bs.points; //tabla
 
 			dxd = 5;
@@ -108,7 +109,7 @@ namespace table
 				filldown(dxd, poz[i]);
 				dxd += 2;
 			}
-
+			
 			dxd = 21;
 
 			for (int i = 6; i < 12; ++i)
@@ -136,31 +137,40 @@ namespace table
 			m[18][8] = bs.get_out(Color::BLACK); //scoase
 			m[18][10] = bs.get_out(Color::WHITE);
 
-			zario = temp.get_remaining_moves();
+			zario = temp.get_remaining_moves(); //zaruri
 			xz = 35;
 			for (int i : zario)
 			{
 				m[i][10] = i;
 				xz += 2;
 			}
+
+			draw();
 		}
 
-		void update(Backgammon temp) // zaruri ,scoase, iesite si mutari posibile
-		{
-
-			
-
-			HelperBoard hb = HelperBoard(temp); //zaruri
-			
-
-			
-
-
-		}
 
 		void info(Backgammon temp) //scor, rand, text, stare joc
 		{
-			
+			if (temp.get_current_player() == Color::WHITE && temp.get_phase == GamePhase::GAME) //rand
+			{
+				m[39][7] = ' ';
+				m[39][13] = 'R';
+			}
+				
+			else if (temp.get_phase == GamePhase::GAME)
+			{
+				m[39][7] = 'R';
+				m[39][13] = ' ';
+			}
+
+			else if (temp.get_phase() != GamePhase::GAME)
+			{
+				m[39][7] = ' ';
+				m[39][13] = ' ';
+			}
+
+
+
 		}
 	};
 }
