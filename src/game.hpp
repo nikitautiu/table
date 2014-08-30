@@ -47,10 +47,10 @@ namespace table {
     const int NUM_POINTS = 24;
     const int NUM_CHECKERS_PER_PLAYER = 15;
 
-    using CheckerMove = std::pair <int, int>;
-    using Turn = std::vector <CheckerMove>;
-    using PointArray = std::array <Point, NUM_POINTS>;
-    using DicePair = std::pair <int, int>;
+    using CheckerMove = std::pair <int, int>; // de pe pozitia .first sare .second pozitii
+    using Turn = std::vector <CheckerMove>;   // contine intre 2 si 4 CheckerMove-uri
+    using PointArray = std::array <Point, NUM_POINTS>; // tabla
+    using DicePair = std::pair <int, int>;    // 2 zaruri
 
     enum class GamePhase : int8_t {
         STARTING, GAME, NORMAL_WIN, TECHNICAL_WIN
@@ -171,7 +171,7 @@ struct BoardState {
         void push_move(CheckerMove); // face o mutare. daca ilegala, arunca exceptie
         void pop_move(void); // da undo la ultima mutare
 
-        std::set<CheckerMove> get_immediately_legal_moves(void) const; // returneaza mutarile de cate o pula imediat legale(prima data cele obligatorii)
+        std::set<CheckerMove> get_immediately_legal_moves(void) const; // returneaza mutarile de cate o piesa imediat legale(prima data cele obligatorii)
         std::multiset<int> get_remaining_moves(void) const; // returneaza mutarile ramase
         bool is_turn_done(void) const; // verifica daca s-a facut o tura completa legala
     };

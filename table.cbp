@@ -43,6 +43,8 @@
 		<Unit filename="src/game.cpp" />
 		<Unit filename="src/game.hpp" />
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/rules.cpp" />
+		<Unit filename="src/rules.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

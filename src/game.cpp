@@ -92,7 +92,7 @@ namespace table {
         return (*this);
 
     }
-
+/*
     void Backgammon::roll_dice(void) {
         if ( this->current_phase != GamePhase::STARTING )
             this->current_dice = double_dice_roll();
@@ -112,7 +112,7 @@ namespace table {
             //TODO: HEADER 'RULES'
     }
 
-
+*/
 /******************************************************************************
                         HELPERBOARD CLASS
 *******************************************************************************/
@@ -168,25 +168,39 @@ namespace table {
     void HelperBoard::pop_move(void) {
         history.pop_back();
     }
-/******************************************
-    STILL NEED RULES HEADER, DO NOT MODIFY
-********************************************/
+
     std::set<CheckerMove> HelperBoard::get_immediately_legal_moves(void) const {
-        std::set<CheckerMove> TODO;
-        return TODO; // Anti-Warning, compile
+        std::set<CheckerMove> rval;
+        /*std::set<Turn> glm (get_legal_moves(current_board_state, player, dices));
+
+        for ( auto i : glm )
+            for ( auto j : history )
+            {
+                Turn::iterator ithistory = j.begin();
+                Turn::iterator itglm     = i.begin();
+
+                bool valid = true;
+                while ( ithistory != j.end() )
+                {
+                    if ( ithistory.first != itglm.first )
+                        valid = false;
+                    ++j;
+                }
+
+                if ( valid )
+                    rval.insert(itglm++);
+            }
+        */
+        return rval; // Anti-Warning, compile
     }
 
     std::multiset<int> HelperBoard::get_remaining_moves(void) const {
-        std::multiset<int> TODO;
-        return TODO; // Anti-Warning, compile
+        return remaining_moves;
     }
 
     bool HelperBoard::is_turn_done(void) const {
-        bool TODO = true;
-        return TODO; // Anti-Warning, compile
+        if ( get_immediately_legal_moves().empty() )
+            return true;
+        return false;
     }
-
-/******************************************
-STILL NEED RULES HEADER, DO NOT MODIFY
-********************************************/
 }
