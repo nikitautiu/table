@@ -2,22 +2,18 @@
 #define _GUI_
 
 #include <iostream>
-#include <cstdint>
-#include <array>
-#include <vector>
-#include <utility>
 #include "game.hpp"
 
 namespace table
-{	
-	class guiobj
+{
+	class Gui
 	{
 	private:
 		char m[45][21];
 		int xz;
 		int dxd;
 		int dxu;
-		std::vector <int> zario;
+		std::multiset <int> zario;
 		std::array <Point, NUM_POINTS> poz;
 
 		void fillup(int dx, Point pt) // metoda umplere punct de pe interfata
@@ -55,7 +51,7 @@ namespace table
 		}
 
 	public:
-		guiobj(void); //constructor default
+		Gui(void); //constructor default
 
 		void draw(void) //afisare matrice pe consola
 		{
@@ -68,7 +64,7 @@ namespace table
 			}
 		}
 
-		void margin(void) //margine interfata si desenare tabla
+		void initialize(void) //margine interfata si desenare tabla
 		{
 			for (int i = 0; i < 45; ++i) //orizontal
 			{
@@ -99,10 +95,12 @@ namespace table
 
 		}
 
-		void update(Board temp) //tabla, cursor, zaruri ,scoase, iesite si mutari posibile
+		void update(HelperBoard temp) //tabla, iesite, scoase, zaruri si cursor
 		{
-			poz = temp.get_tabla(); //tabla
-			
+			BoardState bs = temp.get_board_state();
+
+			poz = bs.points; //tabla
+
 			dxd = 5;
 			dxu = 31;
 
@@ -134,7 +132,11 @@ namespace table
 				dxu -= 2;
 			}
 
-				
+			m[18][6] = bs.get_done(Color::BLACK); //iesite
+			m[18][12] = bs.get_done(Color::WHITE);
+			m[18][8] = bs.get_out(Color::BLACK); //scoase
+			m[18][10] = bs.get_out(Color::WHITE);
+
 			zario = temp.get_remaining_moves(); //zaruri
 			xz = 35;
 			for (int i : zario)
@@ -143,17 +145,13 @@ namespace table
 				xz += 2;
 			}
 
-			m[18][6] = temp.get_done(Color::BLACK); //iesite
-			m[18][12] = temp.get_done(Color::WHITE);
-			m[18][8] = temp.get_out(Color::BLACK); //scoase
-			m[18][10] = temp.get_out(Color::WHITE);
-
-
+			draw();
 		}
 
-		void info(Board temp) //scor, rand, text, stare joc
+
+		void info(Backgammon temp) //scor, rand, text, stare joc
 		{
-			
+
 		}
 	};
 }

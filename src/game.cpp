@@ -1,5 +1,5 @@
 #include "game.hpp"
-
+#include "dice.hpp"
 
 namespace table {
 /******************************************************************************
@@ -75,13 +75,15 @@ namespace table {
                                    current_player(),
                                    winner(),
                                    current_phase(),
-                                   current_dice() {}
+                                   current_dice()  {
+    }
 
     Backgammon::Backgammon(const Backgammon& other) : current_board_state(other.current_board_state),
                                                       current_player(other.current_player),
                                                       winner(other.winner),
                                                       current_phase(other.current_phase),
-                                                      current_dice(other.current_dice) {}
+                                                      current_dice(other.current_dice) {
+    }
 
     Backgammon& Backgammon::operator=(Backgammon other) {
         // check for assignment to self
@@ -90,4 +92,101 @@ namespace table {
         return (*this);
 
     }
+
+    void Backgammon::roll_dice(void) {
+        if ( this->current_phase != GamePhase::STARTING )
+            this->current_dice = double_dice_roll();
+        else
+        {
+            DicePair roll_1 = double_dice_roll();
+            DicePair roll_2 = double_dice_roll();
+
+            if ( roll_1.first + roll_1.second > roll_2.first + roll_2.second )
+                current_player = Color::WHITE;
+            else
+                current_player = Color::BLACK;
+        }
+    }
+
+    void Backgammon::submit_turn(Turn) {
+            //TODO: HEADER 'RULES'
+    }
+
+
+/******************************************************************************
+                        HELPERBOARD CLASS
+*******************************************************************************/
+
+
+    HelperBoard::HelperBoard(void) : current_board_state(),
+                                     player(),
+                                     dices(),
+                                     remaining_moves() {
+    }
+
+    HelperBoard::HelperBoard(const Backgammon& other) : current_board_state(other.get_board_state()),
+                                                        player(other.get_current_player()),
+                                                        dices(other.get_dice()),
+                                                        remaining_moves() {
+
+        if ( dices.first == dices.second )
+            for (int i = 0; i < 4; ++i)
+                remaining_moves.insert(dices.first);
+        else
+            remaining_moves.insert(dices.first),
+            remaining_moves.insert(dices.second);
+    }
+
+
+    HelperBoard::HelperBoard(const HelperBoard& other) : current_board_state(other.current_board_state),
+                                                         player(other.player),
+                                                         dices(other.dices),
+                                                         remaining_moves(other.remaining_moves)
+
+
+    {
+    }
+
+    HelperBoard& HelperBoard::operator=(HelperBoard other)  {
+        if ( this != &other )
+            std::swap((*this), other);
+        return (*this);
+    }
+
+    BoardState HelperBoard::get_board_state(void) const {
+        return current_board_state;
+    }
+
+    Turn HelperBoard::get_turn(void) const {
+        return history;
+    }
+
+    void HelperBoard::push_move(CheckerMove checkerMove) {
+        history.push_back(checkerMove);
+    }
+
+    void HelperBoard::pop_move(void) {
+        history.pop_back();
+    }
+/******************************************
+    STILL NEED RULES HEADER, DO NOT MODIFY
+********************************************/
+    std::set<CheckerMove> HelperBoard::get_immediately_legal_moves(void) const {
+        std::set<CheckerMove> TODO;
+        return TODO; // Anti-Warning, compile
+    }
+
+    std::multiset<int> HelperBoard::get_remaining_moves(void) const {
+        std::multiset<int> TODO;
+        return TODO; // Anti-Warning, compile
+    }
+
+    bool HelperBoard::is_turn_done(void) const {
+        bool TODO = true;
+        return TODO; // Anti-Warning, compile
+    }
+
+/******************************************
+STILL NEED RULES HEADER, DO NOT MODIFY
+********************************************/
 }

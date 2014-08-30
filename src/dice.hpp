@@ -10,7 +10,7 @@ namespace table {
 
     typedef std::pair<int, int> P_INT;
 
-    P_INT DoubleDiceRoll ()
+    P_INT double_dice_roll ()
     {
         std::time_t time = std::time(NULL);
         std::mt19937 generator(rand() + time);
@@ -26,7 +26,7 @@ namespace table {
 
     }
 
-    int DiceRoll()
+    int dice_roll()
     {
         std::time_t time = std::time(NULL);
         std::mt19937 generator(rand() + time);

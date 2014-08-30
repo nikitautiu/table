@@ -1,8 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "dice.hpp"
 
-using namespace table;
 using namespace std;
 
 int mat[8][8]; // matrice de raspandire
@@ -10,6 +8,7 @@ int mat[8][8]; // matrice de raspandire
 ofstream g("dicerolltest.out");
 
 int main(void) {
+    /*
     //std::cout << "Primul commit la proiectul table";
 
     for (int i = 0; i < 1000000; ++i) // 1 milion de aruncari cu 2 zaruri, 23 secunde pe AMD PHENOM 2 X4 3.2 Ghz
@@ -31,4 +30,5 @@ int main(void) {
     }
 
     g.close();
+    */
 }

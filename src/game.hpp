@@ -151,19 +151,28 @@ struct BoardState {
                         HELPERBOARD CLASS
 *******************************************************************************/
     class HelperBoard {
+    private:
+        BoardState current_board_state; // asta se initializeaza din bagamon. dupa se modifica cand se fac mutari
+        Color player; // playeru care face mutaorile
+        DicePair dices; // zarurile cu care se lucreaza
+        Turn history;   // se pusheaza aici toate mutarile ( first = poz.init, second = nr mutari )
+        std::multiset<int> remaining_moves; // mutarile ramase cu care se lucreaza
+
+
     public:
         // clasa pe care poti face mutari, da undo, verifica legalitatea lor etc
         HelperBoard(void);
         HelperBoard(const Backgammon&); // initializeaza o tabla temporara din clasa de joc
         HelperBoard(const HelperBoard&); // constructor copiere
-        HelperBoard& operator=(const HelperBoard&); // operator copiere
+        HelperBoard& operator=(HelperBoard); // operator copiere
+        BoardState get_board_state(void) const;
 
         Turn get_turn(void) const; // returneaza mutarile de pana acuma
         void push_move(CheckerMove); // face o mutare. daca ilegala, arunca exceptie
         void pop_move(void); // da undo la ultima mutare
 
-        std::set <CheckerMove> get_immediately_legal_moves(void) const; // returneaza mutarile de cate un pul imediat legale(prima data cele obligatorii)
-        std::multiset <int> get_remaining_moves(void) const; // returneaza mutarile ramase
+        std::set<CheckerMove> get_immediately_legal_moves(void) const; // returneaza mutarile de cate o pula imediat legale(prima data cele obligatorii)
+        std::multiset<int> get_remaining_moves(void) const; // returneaza mutarile ramase
         bool is_turn_done(void) const; // verifica daca s-a facut o tura completa legala
     };
 }
