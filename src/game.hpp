@@ -25,6 +25,7 @@ namespace table {
         Point(Color, int);
         Point(const Point&);
         Point& operator=(Point);
+        Point& operator=(int);
 
         Point& operator+=(int);
         Point& operator-=(int);
@@ -107,38 +108,40 @@ struct BoardState {
         Color winner;
         GamePhase current_phase;
         DicePair current_dice;
+
+        std::set <Turn> valid_moves;
     public:
         Backgammon(void); // constructor inplicit
         Backgammon(const Backgammon&); // constructor copiere
         Backgammon& operator=(Backgammon); // operator copiere
 
-        void initialize(void) {
+        inline void initialize(void) {
             (*this) = Backgammon(); // reinitializeaza cu nul
             current_phase = GamePhase::STARTING;
             current_board_state.initialize();
         }
 
-        Color get_winner(void) const {
+        inline Color get_winner(void) const {
             // daca ii gata partida, returneaza castigatorul
             if(current_phase != GamePhase::NORMAL_WIN && current_phase != GamePhase::TECHNICAL_WIN)
                 throw std::runtime_error("No winner yet"); // daca nu, exceptie
             return winner;
         }
 
-        Color get_current_player(void) const {
+        inline Color get_current_player(void) const {
             return current_player; // returneaza playerul actual
         }
 
-        GamePhase get_phase(void) const {
+        inline GamePhase get_phase(void) const {
             return current_phase;
         }
 
-        BoardState get_board_state(void) const {
+        inline BoardState get_board_state(void) const {
             // returneaza reprezentarea tablei
             return current_board_state;
         }
 
-        DicePair get_dice(void) const {
+        inline DicePair get_dice(void) const {
             return current_dice;
         }
 
@@ -165,11 +168,11 @@ struct BoardState {
         HelperBoard(const Backgammon&); // initializeaza o tabla temporara din clasa de joc
         HelperBoard(const HelperBoard&); // constructor copiere
         HelperBoard& operator=(HelperBoard); // operator copiere
-        BoardState get_board_state(void) const;
+        inline BoardState get_board_state(void) const;
 
-        Turn get_turn(void) const; // returneaza mutarile de pana acuma
-        void push_move(CheckerMove); // face o mutare. daca ilegala, arunca exceptie
-        void pop_move(void); // da undo la ultima mutare
+        inline Turn get_turn(void) const; // returneaza mutarile de pana acuma
+        inline void push_move(CheckerMove); // face o mutare. daca ilegala, arunca exceptie
+        inline void pop_move(void); // da undo la ultima mutare
 
         std::set<CheckerMove> get_immediately_legal_moves(void) const; // returneaza mutarile de cate o pula imediat legale(prima data cele obligatorii)
         std::multiset<int> get_remaining_moves(void) const; // returneaza mutarile ramase

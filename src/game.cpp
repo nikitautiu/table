@@ -1,5 +1,7 @@
+#include <exception>
 #include "game.hpp"
 #include "dice.hpp"
+#include "rules.hpp"
 
 namespace table {
 /******************************************************************************
@@ -16,6 +18,12 @@ namespace table {
             std::swap((*this), other);
         return (*this);
     }
+
+    Point& Point::operator=(int new_value) {
+        number = new_value;
+        return (*this);
+    }
+
 
     Point& Point::operator+=(int num) {
         this->number += num;
@@ -75,14 +83,16 @@ namespace table {
                                    current_player(),
                                    winner(),
                                    current_phase(),
-                                   current_dice()  {
+                                   current_dice(),
+                                   valid_moves() {
     }
 
     Backgammon::Backgammon(const Backgammon& other) : current_board_state(other.current_board_state),
                                                       current_player(other.current_player),
                                                       winner(other.winner),
                                                       current_phase(other.current_phase),
-                                                      current_dice(other.current_dice) {
+                                                      current_dice(other.current_dice),
+                                                      valid_moves(other.valid_moves) {
     }
 
     Backgammon& Backgammon::operator=(Backgammon other) {
@@ -94,8 +104,10 @@ namespace table {
     }
 
     void Backgammon::roll_dice(void) {
-        if ( this->current_phase != GamePhase::STARTING )
+        if ( this->current_phase != GamePhase::STARTING ) {
             this->current_dice = double_dice_roll();
+            this->valid_moves = get_legal_moves(current_board_state, current_player, current_dice);
+        }
         else
         {
             DicePair roll_1 = double_dice_roll();
@@ -108,8 +120,13 @@ namespace table {
         }
     }
 
-    void Backgammon::submit_turn(Turn) {
-            //TODO: HEADER 'RULES'
+    void Backgammon::submit_turn(Turn moves) {
+        if(valid_moves.find(moves) != valid_moves.end()) {
+            auto new_board_state = process_board(current_board_state, moves);
+            current_board_state = new_board_state;
+        }
+        else
+            throw std::runtime_error("Illegal moves");
     }
 
 
@@ -153,19 +170,19 @@ namespace table {
         return (*this);
     }
 
-    BoardState HelperBoard::get_board_state(void) const {
+    inline BoardState HelperBoard::get_board_state(void) const {
         return current_board_state;
     }
 
-    Turn HelperBoard::get_turn(void) const {
+    inline Turn HelperBoard::get_turn(void) const {
         return history;
     }
 
-    void HelperBoard::push_move(CheckerMove checkerMove) {
+    inline void HelperBoard::push_move(CheckerMove checkerMove) {
         history.push_back(checkerMove);
     }
 
-    void HelperBoard::pop_move(void) {
+    inline void HelperBoard::pop_move(void) {
         history.pop_back();
     }
 /******************************************
