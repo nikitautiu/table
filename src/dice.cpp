@@ -1,7 +1,7 @@
 #include "dice.hpp"
 
-using namespace table {
-	
+namespace table {
+
 	P_INT double_dice_roll()
 	{
         std::time_t time = std::time(NULL);
@@ -14,7 +14,7 @@ using namespace table {
 
         return std::make_pair(dice_roll1, dice_roll2);
 	}
-	
+
 	int dice_roll()
 	{
         std::time_t time = std::time(NULL);
@@ -24,5 +24,5 @@ using namespace table {
 
         return dice_roll1;
 	}
-	
+
 }
