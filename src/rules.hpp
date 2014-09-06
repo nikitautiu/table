@@ -3,7 +3,7 @@
 
 #include <cstdint>
 #include <set>
-#include "game.hpp"
+#include "game_core.hpp"
 
 namespace table {
     enum class WinType : int8_t {

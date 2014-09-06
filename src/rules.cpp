@@ -1,5 +1,5 @@
 #include "rules.hpp"
-#include "game.hpp"
+#include "game_core.hpp"
 
 namespace table {
     BoardState process_board(BoardState old_board, Turn moves) {
