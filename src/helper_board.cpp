@@ -58,29 +58,39 @@ namespace table {
     void HelperBoard::pop_move(void) {
         history.pop_back();
     }
-/******************************************
-    STILL NEED RULES HEADER, DO NOT MODIFY
-********************************************/
+
     const std::set <Turn>& HelperBoard::get_legal_moves(void) const {
         return *valid_moves;
     }
 
+    // AJUTOR
     std::set<CheckerMove> HelperBoard::get_immediately_legal_moves(void) const {
-        std::set<CheckerMove> TODO;
-        return TODO; // Anti-Warning, compile
+        std::set<CheckerMove> rval;
+        for ( auto i : *valid_moves )
+        {
+            bool valid;
+            for (unsigned int ii = 0; ii < i.size() &&
+                                      ii < history.size(); ++ii)
+            {
+                if ( i[ii] != history[ii] ) {
+                    valid = false;
+                    break;
+                }
+            }
+            if ( valid && history.size() < i.size() )
+                rval.insert(i[history.size()]);
+
+        }
+        return rval;
     }
 
     std::multiset<int> HelperBoard::get_remaining_moves(void) const {
-        std::multiset<int> TODO;
-        return TODO; // Anti-Warning, compile
+        return this->remaining_moves;
     }
 
     bool HelperBoard::is_turn_done(void) const {
-        bool TODO = true;
-        return TODO; // Anti-Warning, compile
+        if ( get_immediately_legal_moves().empty() )
+            return true;
+        return false;
     }
-
-/******************************************
-STILL NEED RULES HEADER, DO NOT MODIFY
-********************************************/
 }
