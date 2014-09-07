@@ -4,6 +4,10 @@
 #include "rules.hpp"
 
 namespace table {
+    Color operator-(Color color) {
+        return (color == Color::WHITE ? Color::BLACK : Color::WHITE);
+    }
+
 /******************************************************************************
                                 POINT CLASS
 *******************************************************************************/

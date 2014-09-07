@@ -41,6 +41,8 @@ namespace table {
     bool operator==(Point, Point); // operatori de compararare
     bool operator!=(Point, Point);
 
+    Color operator-(Color); // minus-culoare
+
 
 /******************************************************************************
                             DEFINES AND ENUMS
