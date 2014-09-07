@@ -109,10 +109,10 @@ namespace table {
     }
 
     int BoardState::get_starting_pos(Color player) {
-        return (player == Color::BLACK ? 0 : NUM_POINTS - 1);
+        return (player == Color::WHITE ? 0 : NUM_POINTS - 1);
     }
 
     int BoardState::get_move_sign(Color player) {
-        return (player == Color::BLACK ? 1 : -1);
+        return (player == Color::WHITE ? 1 : -1);
     }
 }
