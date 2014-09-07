@@ -5,6 +5,21 @@
 
 namespace table {
         namespace internal {
+
+            bool can_extract(const BoardState& board, Color player) {
+
+                if ( board.get_out(player) ) return false;
+
+                int starting_pos = board.get_starting_pos(player);
+                int move_sign = board.get_move_sign(player);
+                int finish_pos = board.get_starting_pos(-player);
+
+                for (int i = starting_pos; i != finish_pos - ( 6 * move_sign ) ; i += move_sign)
+                    if ( board.points[i].number ) return false;
+
+                return true;
+            }
+
             // detalii de implementare(utilizatorul bibliotecii nu trebuie sa le vada)
             bool check_for_technical(const BoardState& board, Color player) {
                 int house_start_pos = BoardState::get_starting_pos(player), // TODO: -player
@@ -32,10 +47,19 @@ namespace table {
                     if ( board.points[sp + ( ms * move_dist )].number < 2 )
                         return std::set<CheckerMove> { std::make_pair(sp - ms, ms *move_dist ) };
 
-                for ( auto point : board.points )
-                    if ( ! (sp + ( ms * (int)move_dist ) < NUM_POINTS && sp + ( ms * (int)move_dist ) > 0  ) // daca punctul de aterizare nu e in intervalul 0, 23
-                    || ( point.color == player && board.points[sp + ( ms * move_dist )].number < 2 ))        // SAU e in interval si sunt mai putin de 2 piese de culoare opusa
-                        rval.insert(std::make_pair(point.number, move_dist));                                // se insereaza mutare valida
+                // declared virtual board (vboard) to avoid const problems with board
+                BoardState vboard(board);
+                if ( player == Color::BLACK )
+                    vboard.reverse_points();
+
+                for ( auto point : vboard.points )
+                    if ( point.color == player )
+                    if ( ! (sp + ( ms * (int)move_dist ) < NUM_POINTS && sp + ( ms * (int)move_dist ) > 0
+                                                                             && can_extract(board, player) ) // daca punctul de aterizare nu e in intervalul 0, 23
+
+                    ||   ( board.points[sp + ( ms * move_dist )].color != player
+                        && board.points[sp + ( ms * move_dist )].number < 2 ))                               // SAU e in interval si sunt mai putin de 2 piese de culoare opusa
+                        rval.insert(std::make_pair(point.number, move_dist * ms));                           // se insereaza mutare valida
 
                 return rval;
             }

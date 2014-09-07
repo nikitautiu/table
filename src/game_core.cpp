@@ -119,4 +119,11 @@ namespace table {
     int BoardState::get_move_sign(Color player) {
         return (player == Color::WHITE ? 1 : -1);
     }
+
+    void BoardState::reverse_points(void) {
+        PointArray rpoints;
+        for (int i = 0; i < NUM_POINTS; ++i)
+            rpoints[NUM_POINTS-i-1] = this->points[i];
+        this->points = rpoints;
+    }
 }

@@ -71,6 +71,7 @@ namespace table {
         std::array <unsigned int, 2> out;
 
         void init (void);
+        void reverse_points();  // reverses points array to ease backwards iteration
 
         int get_out(Color color) const; // nr scoase temporar
         int get_done(Color color) const; // nr scoase permanent
