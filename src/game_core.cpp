@@ -1,6 +1,5 @@
 #include <exception>
 #include "game_core.hpp"
-#include "round.hpp"
 #include "dice.hpp"
 #include "rules.hpp"
 
@@ -107,5 +106,13 @@ namespace table {
     void BoardState::set_done(Color color, int new_value) {
         int poz = (color ==  Color::WHITE ? 0 : 1);
         done[poz] = new_value;
+    }
+
+    int BoardState::get_starting_pos(Color player) {
+        return (player == Color::BLACK ? 0 : NUM_POINTS - 1);
+    }
+
+    int BoardState::get_move_sign(Color player) {
+        return (player == Color::BLACK ? 1 : -1);
     }
 }

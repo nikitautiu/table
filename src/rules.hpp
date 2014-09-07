@@ -13,7 +13,7 @@ namespace table {
     using WinerWinPair = std::pair <WinType, Color>; // pereche tip de victorie/invingator
 
     BoardState process_board(BoardState, Turn); // face mutarile pe un board
-    std::set <Turn> get_legal_moves(BoardState, Color, DicePair); // returneaza un set cu toate mutarile legale pt o tabla, un jucator si un set de zaruri
+    std::set <Turn> get_legal_moves(const BoardState&, Color, DicePair); // returneaza un set cu toate mutarile legale pt o tabla, un jucator si un set de zaruri
     WinerWinPair get_win_outcome(const BoardState&); // retunreaza o pereche cu tipul de victori si castigator. tip = NOT_WON daca nu s-a castigat inca
 }
 

@@ -58,6 +58,8 @@ namespace table {
     };
 
 
+
+
 /******************************************************************************
                             BOARDSTATE CLASS
 *******************************************************************************/
@@ -72,6 +74,9 @@ namespace table {
         int get_done(Color color) const;
         void set_out(Color color, int new_value);
         void set_done(Color color, int new_value);
+
+        static int get_starting_pos(Color);
+        static int get_move_sign(Color);
     };
 }
 
