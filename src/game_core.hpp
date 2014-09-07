@@ -70,8 +70,8 @@ namespace table {
 
         void init (void);
 
-        int get_out(Color color) const;
-        int get_done(Color color) const;
+        int get_out(Color color) const; // nr scoase temporar
+        int get_done(Color color) const; // nr scoase permanent
         void set_out(Color color, int new_value);
         void set_done(Color color, int new_value);
 

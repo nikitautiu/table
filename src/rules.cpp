@@ -7,7 +7,7 @@ namespace table {
         namespace internal {
             // detalii de implementare(utilizatorul bibliotecii nu trebuie sa le vada)
             bool check_for_technical(const BoardState& board, Color player) {
-                int house_start_pos = BoardState::get_starting_pos(-player),
+                int house_start_pos = BoardState::get_starting_pos(player), // TODO: -player
                     sign = -BoardState::get_move_sign(player);
                 for(int delta = 0; delta < 8; ++delta) {
                     int current_pos = house_start_pos + delta * sign;
@@ -23,9 +23,21 @@ namespace table {
             }
 
             std::set <CheckerMove> get_possible_moves(const BoardState& board, Color player, size_t move_dist) {
-                // TODO!!! De implementat cacatu asta
-                // returneaza toate mutarile care se pot face de "player" pe o distanta de "move_dist" pe "board"
-                // (ex. daca are un pul scos, se returneaza un set doar cu acea mutare)
+                std::set<CheckerMove> rval;
+
+                int sp = board.get_starting_pos(player);
+                int ms = board.get_move_sign(player);
+
+                if ( board.get_out(player) )
+                    if ( board.points[sp + ( ms * move_dist )].number < 2 )
+                        return std::set<CheckerMove> { std::make_pair(sp - ms, ms *move_dist ) };
+
+                for ( auto point : board.points )
+                    if ( ! (sp + ( ms * (int)move_dist ) < NUM_POINTS && sp + ( ms * (int)move_dist ) > 0  ) // daca punctul de aterizare nu e in intervalul 0, 23
+                    || ( point.color == player && board.points[sp + ( ms * move_dist )].number < 2 ))        // SAU e in interval si sunt mai putin de 2 piese de culoare opusa
+                        rval.insert(std::make_pair(point.number, move_dist));                                // se insereaza mutare valida
+
+                return rval;
             }
 
             class TurnGenerator {
