@@ -46,7 +46,7 @@ namespace table {
 
             // detalii de implementare(utilizatorul bibliotecii nu trebuie sa le vada)
             bool check_for_technical(const BoardState& board, Color player) {
-                int house_start_pos = BoardState::get_starting_pos(player), // TODO: -player
+                int house_start_pos = BoardState::get_starting_pos(-player),
                     sign = -BoardState::get_move_sign(player);
                 for(int delta = 0; delta < 8; ++delta) {
                     int current_pos = house_start_pos + delta * sign;
