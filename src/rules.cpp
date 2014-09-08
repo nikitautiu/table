@@ -38,7 +38,7 @@ namespace table {
                 int move_sign = board.get_move_sign(player);
                 int finish_pos = board.get_starting_pos(-player);
 
-                for (int i = starting_pos; i != finish_pos - ( 6 * move_sign ) ; i += move_sign)
+                for (int i = starting_pos; i != finish_pos - ( 5 * move_sign ); i += move_sign)
                     if ( board.points[i].number ) return false;
 
                 return true;
