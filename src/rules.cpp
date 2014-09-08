@@ -39,7 +39,7 @@ namespace table {
                 int finish_pos = board.get_starting_pos(-player);
 
                 for (int i = starting_pos; i != finish_pos - ( 5 * move_sign ); i += move_sign)
-                    if ( board.points[i].number ) return false; // TODO: Nu verifica culoarea?
+                    if ( board.points[i].number && board.points[i].color == player ) return false;
 
                 return true;
             }
@@ -68,8 +68,11 @@ namespace table {
                 int ms = board.get_move_sign(player);
 
                 if ( board.get_out(player) )
-                    if ( board.points[sp + ( ms * move_dist )].number < 2 ) // TODO: N-ar trebui sa verifici daca e mai mic ca 2 doar cand sunt de alta culoare?(vezi linia 85)
+                    if ( board.points[sp + ( ms * move_dist )].number < 2 && board.points[sp + ( ms * move_dist )].color != player )
                         return std::set<CheckerMove> { std::make_pair(sp - ms, ms *move_dist ) };
+                    else
+                        if ( board.points[sp + ( ms * move_dist )].number >= 2 && board.points[sp + ( ms * move_dist )].color != player )
+                        return std::set<CheckerMove> {}; // set vid
 
                 // declared virtual board (vboard) to avoid const problems with board
                 BoardState vboard(board);
@@ -78,7 +81,7 @@ namespace table {
 
                 for ( auto point : vboard.points )
                     if ( point.color == player )
-                    if ( ! (sp + ( ms * (int)move_dist ) < NUM_POINTS && sp + ( ms * (int)move_dist ) > 0 // TODO: ">= 0"
+                    if ( ! (sp + ( ms * (int)move_dist ) < NUM_POINTS && sp + ( ms * (int)move_dist ) >= 0
                                                                              && can_extract(board, player) ) // daca punctul de aterizare nu e in intervalul 0, 23
 
                     ||   ( board.points[sp + ( ms * move_dist )].color != player
