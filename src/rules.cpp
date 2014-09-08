@@ -6,6 +6,30 @@
 namespace table {
         namespace internal {
 
+            class TurnGenerator {
+                private:
+                    size_t max_len;
+                    std::set <Turn> legal_moves;
+                    Turn current_turn;
+                    Color current_player;
+
+                    void do_backtracking(const BoardState&, std::multiset <int>);
+                    void purge_moves(void); // remov all less than max_len long moves
+                public:
+                    std::set <Turn> compute_legal_moves(const BoardState&, Color, DicePair);
+            };
+
+
+            BoardState reverse_points(const BoardState& board) {
+                PointArray rpoints;
+                for (int i = 0; i < NUM_POINTS; ++i)
+                    rpoints[NUM_POINTS-i-1] = board.points[i];
+                BoardState rval;
+                rval.points = rpoints;
+                return rval;
+            }
+
+
             bool can_extract(const BoardState& board, Color player) {
 
                 if ( board.get_out(player) ) return false;
@@ -50,7 +74,7 @@ namespace table {
                 // declared virtual board (vboard) to avoid const problems with board
                 BoardState vboard(board);
                 if ( player == Color::BLACK )
-                    vboard.reverse_points();
+                    vboard = reverse_points(board);
 
                 for ( auto point : vboard.points )
                     if ( point.color == player )
@@ -63,19 +87,6 @@ namespace table {
 
                 return rval;
             }
-
-            class TurnGenerator {
-            private:
-                size_t max_len;
-                std::set <Turn> legal_moves;
-                Turn current_turn;
-                Color current_player;
-
-                void do_backtracking(const BoardState&, std::multiset <int>);
-                void purge_moves(void); // remov all less than max_len long moves
-            public:
-                std::set <Turn> compute_legal_moves(const BoardState&, Color, DicePair);
-            };
 
             std::set <Turn> TurnGenerator::compute_legal_moves(const BoardState& board, Color color, DicePair dices) {
                 current_player = color;
