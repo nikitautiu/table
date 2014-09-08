@@ -74,20 +74,17 @@ namespace table {
                         if ( board.points[sp + ( ms * move_dist )].number >= 2 && board.points[sp + ( ms * move_dist )].color != player )
                         return std::set<CheckerMove> {}; // set vid
 
-                // declared virtual board (vboard) to avoid const problems with board
-                BoardState vboard(board);
-                if ( player == Color::BLACK )
-                    vboard = reverse_points(board);
+                auto all_in_house = can_extract(board, player); // verifica daca se poate incepe sa se scoata
+                for (int i = 0; i < NUM_POINTS; ++i) {
+                    auto point = board.points[i];
+                    auto ep = i + (ms * (int)move_dist);
 
-                for ( auto point : vboard.points )
                     if ( point.color == player )
-                    if ( ! (sp + ( ms * (int)move_dist ) < NUM_POINTS && sp + ( ms * (int)move_dist ) >= 0
-                                                                             && can_extract(board, player) ) // daca punctul de aterizare nu e in intervalul 0, 23
-
-                    ||   ( board.points[sp + ( ms * move_dist )].color != player
-                        && board.points[sp + ( ms * move_dist )].number < 2 ))                               // SAU e in interval si sunt mai putin de 2 piese de culoare opusa
-                        rval.insert(std::make_pair(point.number, move_dist * ms));                           // se insereaza mutare valida. TODO: "point.number" zice cate sunt pe pozitia aia, nu ce pozitie e
-
+                    if ((!(ep < NUM_POINTS && ep >= 0) && all_in_house)                        // daca punctul de aterizare nu e in intervalul 0, 23 si se poate scoate
+                        || (board.points[ep].color != player && board.points[ep].number < 2)   // SAU e in interval si sunt mai putin de 2 piese de culoare opusa
+                        || board.points[ep].color == player)                                   // SAU e interval si e de aceeasi culoare,
+                        rval.insert(std::make_pair(i, (int)move_dist * ms));                   // se insereaza mutare valida.
+                }
                 return rval;
             }
 
