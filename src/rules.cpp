@@ -67,12 +67,13 @@ namespace table {
                 int sp = board.get_starting_pos(player);
                 int ms = board.get_move_sign(player);
 
-                if ( board.get_out(player) )
-                    if ( board.points[sp + ( ms * move_dist )].number < 2 && board.points[sp + ( ms * move_dist )].color != player )
-                        return std::set<CheckerMove> { std::make_pair(sp - ms, ms *move_dist ) };
+                if (board.get_out(player)) {
+                    auto pr = sp - ms + ( ms * move_dist ); // pozitia de reintrare pe tabla
+                    if ( board.points[pr].number >= 2 && board.points[pr].color != player )
+                        return std::set<CheckerMove> {}; // set vid, fiindca e ocupata pozitia pe care se intra
                     else
-                        if ( board.points[sp + ( ms * move_dist )].number >= 2 && board.points[sp + ( ms * move_dist )].color != player )
-                        return std::set<CheckerMove> {}; // set vid
+                        return std::set<CheckerMove> { std::make_pair(sp - ms, ms * move_dist) };
+                }
 
                 auto all_in_house = can_extract(board, player); // verifica daca se poate incepe sa se scoata
                 for (int i = 0; i < NUM_POINTS; ++i) {
