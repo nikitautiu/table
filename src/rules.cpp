@@ -81,9 +81,9 @@ namespace table {
                     auto ep = i + (ms * (int)move_dist);
 
                     if ( point.color == player )
-                    if ((!(ep < NUM_POINTS && ep >= 0) && all_in_house)                                                              // (daca punctul de aterizare nu e in intervalul 0, 23 si se poate scoate)
-                        || (ep < NUM_POINTS && ep >= 0)  && ((board.points[ep].color != player && board.points[ep].number < 2)       // SAU (e in interval si ((sunt mai putin de 2 piese de culoare opusa)
-                                                             || board.points[ep].color == player))                                   //                        SAU (e de aceeasi culoare))),
+                    if ((!(ep < NUM_POINTS && ep >= 0) && all_in_house)                                                              // (daca punctul de aterizare nu e in intervalul 0, 23 SI se poate scoate)
+                        || ((ep < NUM_POINTS && ep >= 0) && ((board.points[ep].color != player && board.points[ep].number < 2)       // SAU (e in interval SI ((sunt mai putin de 2 piese de culoare opusa)
+                                                             || board.points[ep].color == player)))                                  //                        SAU (se aterizeaza pe aceasi culoare))),
                         rval.insert(std::make_pair(i, (int)move_dist * ms));                                                         // se insereaza mutare valida.
                 }
                 return rval;
