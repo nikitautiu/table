@@ -41,6 +41,8 @@ namespace table {
     bool operator==(Point, Point); // operatori de compararare
     bool operator!=(Point, Point);
 
+    Color operator-(Color); // minus-culoare
+
 
 /******************************************************************************
                             DEFINES AND ENUMS
@@ -58,6 +60,8 @@ namespace table {
     };
 
 
+
+
 /******************************************************************************
                             BOARDSTATE CLASS
 *******************************************************************************/
@@ -68,10 +72,13 @@ namespace table {
 
         void init (void);
 
-        int get_out(Color color) const;
-        int get_done(Color color) const;
+        int get_out(Color color) const; // nr scoase temporar
+        int get_done(Color color) const; // nr scoase permanent
         void set_out(Color color, int new_value);
         void set_done(Color color, int new_value);
+
+        static int get_starting_pos(Color);
+        static int get_move_sign(Color);
     };
 }
 

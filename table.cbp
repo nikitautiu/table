@@ -41,7 +41,6 @@
 		</Compiler>
 		<Unit filename="src/dice.cpp" />
 		<Unit filename="src/dice.hpp" />
-		<Unit filename="src/game.hpp" />
 		<Unit filename="src/game_core.cpp" />
 		<Unit filename="src/game_core.hpp" />
 		<Unit filename="src/gui.hpp" />
