@@ -39,7 +39,7 @@ namespace table {
                 int finish_pos = board.get_starting_pos(-player);
 
                 for (int i = starting_pos; i != finish_pos - ( 5 * move_sign ); i += move_sign)
-                    if ( board.points[i].number ) return false;
+                    if ( board.points[i].number ) return false; // TODO: Nu verifica culoarea?
 
                 return true;
             }
@@ -68,7 +68,7 @@ namespace table {
                 int ms = board.get_move_sign(player);
 
                 if ( board.get_out(player) )
-                    if ( board.points[sp + ( ms * move_dist )].number < 2 )
+                    if ( board.points[sp + ( ms * move_dist )].number < 2 ) // TODO: N-ar trebui sa verifici daca e mai mic ca 2 doar cand sunt de alta culoare?(vezi linia 85)
                         return std::set<CheckerMove> { std::make_pair(sp - ms, ms *move_dist ) };
 
                 // declared virtual board (vboard) to avoid const problems with board
@@ -78,12 +78,12 @@ namespace table {
 
                 for ( auto point : vboard.points )
                     if ( point.color == player )
-                    if ( ! (sp + ( ms * (int)move_dist ) < NUM_POINTS && sp + ( ms * (int)move_dist ) > 0
+                    if ( ! (sp + ( ms * (int)move_dist ) < NUM_POINTS && sp + ( ms * (int)move_dist ) > 0 // TODO: ">= 0"
                                                                              && can_extract(board, player) ) // daca punctul de aterizare nu e in intervalul 0, 23
 
                     ||   ( board.points[sp + ( ms * move_dist )].color != player
                         && board.points[sp + ( ms * move_dist )].number < 2 ))                               // SAU e in interval si sunt mai putin de 2 piese de culoare opusa
-                        rval.insert(std::make_pair(point.number, move_dist * ms));                           // se insereaza mutare valida
+                        rval.insert(std::make_pair(point.number, move_dist * ms));                           // se insereaza mutare valida. TODO: "point.number" zice cate sunt pe pozitia aia, nu ce pozitie e
 
                 return rval;
             }
