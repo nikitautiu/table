@@ -20,7 +20,7 @@ namespace table {
         std::set <Turn> valid_moves;
     public:
         Round(void); // constructor inplicit
-        Round(const Round&); // constructor copiere
+        explicit Round(const Round&); // constructor copiere
         Round& operator=(Round); // operator copiere
 
         void init(Color, DicePair);
