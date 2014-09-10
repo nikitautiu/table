@@ -83,11 +83,32 @@ namespace table {
 /******************************************************************************
                         BOARDSTATE CLASS
 *******************************************************************************/
+
+    BoardState::BoardState(void) : points(), done(), out() {}
+
+    BoardState::BoardState(const BoardState& board) : points(board.get_points_array()),
+                                                      done(board.get_done_array()),
+                                                      out(board.get_out_array())
+    {
+    }
+
     void BoardState::init (void) {
         points[0]  = Point(Color::WHITE, 2), points[NUM_POINTS-1]  = Point(Color::BLACK, 2);
         points[5]  = Point(Color::WHITE, 5), points[NUM_POINTS-6]  = Point(Color::BLACK, 5);
         points[7]  = Point(Color::WHITE, 3), points[NUM_POINTS-8]  = Point(Color::BLACK, 3);
         points[12] = Point(Color::WHITE, 5), points[NUM_POINTS-13] = Point(Color::BLACK, 5);
+    }
+
+    std::array<unsigned int, 2> BoardState::get_done_array() const {
+        return this->done;
+    }
+
+    std::array<unsigned int, 2> BoardState::get_out_array() const {
+        return this->out;
+    }
+
+    PointArray BoardState::get_points_array() const {
+        return this->points;
     }
 
     int BoardState::get_out(Color color) const {
