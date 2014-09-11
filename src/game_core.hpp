@@ -54,6 +54,7 @@ namespace table {
     using Turn = std::vector <CheckerMove>;
     using PointArray = std::array <Point, NUM_POINTS>;
     using DicePair = std::pair <int, int>;
+    using WinPair = std::pair<std::string, Color>; // pereche tip de victorie/invingator
 
     enum class RoundPhase : int8_t {
         STARTING, GAME, NORMAL_WIN, TECHNICAL_WIN

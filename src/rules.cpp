@@ -175,16 +175,16 @@ namespace table {
     }
 
 
-    WinerWinPair get_win_outcome(const BoardState& board) {
+    WinPair get_win_outcome(const BoardState& board) {
         if(board.get_done(Color::BLACK) == NUM_CHECKERS_PER_PLAYER)
-            return std::make_pair(WinType::NORMAL_WIN, Color::BLACK);
+            return std::make_pair(std::string("normal"), Color::BLACK);
         if(board.get_done(Color::WHITE) == NUM_CHECKERS_PER_PLAYER)
-            return std::make_pair(WinType::NORMAL_WIN, Color::WHITE);
+            return std::make_pair(std::string("normal"), Color::WHITE);
         if(internal::check_for_technical(board, Color::BLACK))
-            return std::make_pair(WinType::TECHNICAL_WIN, Color::BLACK);
+            return std::make_pair(std::string("technical"), Color::BLACK);
         if(internal::check_for_technical(board, Color::WHITE))
-            return std::make_pair(WinType::TECHNICAL_WIN, Color::WHITE);
-        return std::make_pair(WinType::NOT_WON, Color::WHITE); // culoarea nu conteaza
+            return std::make_pair(std::string("technical"), Color::WHITE);
+        return std::make_pair(std::string("not_won"), Color::WHITE); // culoarea nu conteaza
     }
 
 
