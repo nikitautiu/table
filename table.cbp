@@ -47,6 +47,10 @@
 		<Unit filename="src/helper_board.cpp" />
 		<Unit filename="src/helper_board.hpp" />
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/match.cpp" />
+		<Unit filename="src/match.hpp" />
+		<Unit filename="src/phase.cpp" />
+		<Unit filename="src/phase.hpp" />
 		<Unit filename="src/round.cpp" />
 		<Unit filename="src/round.hpp" />
 		<Unit filename="src/rules.cpp" />
