@@ -25,7 +25,7 @@ namespace table
 
     Color IPhase::get_current_player(void) const
     {
-        return _current_player
+        return _current_player;
     }
 
     DicePair IPhase::get_current_dices(void) const
@@ -43,28 +43,24 @@ namespace table
         return _win_outcome;
     }
 
-    virtual void IPhase::roll_dice(void)
+    void IPhase::roll_dice(void)
     {
         // implemntarea implicita a functie dice roll
         // A se chema din implementarile derivate
 
         if(_win_outcome.first != "not_won")
             throw std::runtime_error("Dices can not be rolled after the round is over");
-        if(_current_phase == PhaseType::GAME_END)
-            throw std::runtime_error("Can not roll dice after the match has ended");
         if(_dice_obligation == DiceObligation::CAN_NOT_ROLL)
             throw std::runtime_error("The dices can not be rolled");
         _current_dices = double_dice_roll();
     }
 
-    virtual void IPhase::submit_moves(Turn moves)
+    void IPhase::submit_moves(Turn moves)
     {
         // A se chema din implementarile derivate
         if(_win_outcome.first != "not_won")
             throw std::runtime_error("Can not move after the round has ended");
-        if(_current_phase == PhaseType::GAME_END)
-            throw std::runtime_error("Can not move after the match has ended");
-        if(_current_phas PhaseType::OPENING_ROLL)
+        if(_phase_type == PhaseType::OPENING_ROLL)
             throw std::runtime_error("Can not move during the opening roll");
         if(_legal_moves.find(moves) == _legal_moves.end())
             throw std::runtime_error("This is not a valid move");
@@ -73,7 +69,7 @@ namespace table
 /*******************************************************************************
                             CLASA PHASEVIEW
 *******************************************************************************/
-    PhaseView::PhaseView(const IPhase& phase, const IMatch& match) : _wrapped_phase(&phase), _observer(&match)
+    PhaseView::PhaseView(IPhase& phase, IMatch& match) : _wrapped_phase(&phase), _observer(&match)
     {
     }
 
@@ -83,7 +79,7 @@ namespace table
         return _wrapped_phase->get_current_board_state();
     }
 
-    PhaseType IPhaseView:get_phase_type(void) const
+    PhaseType PhaseView::get_phase_type(void) const
     {
         return _wrapped_phase->get_phase_type();
     }

@@ -8,6 +8,8 @@
 
 namespace table
 {
+    class IMatch;
+
     enum class PhaseType : int8_t
     {
         // enum MatchPhase
@@ -48,7 +50,7 @@ namespace table
         PhaseType get_phase_type(void) const; // returneaza un TypePhase cu tipul fazei
         DiceObligation get_dice_obligation(void) const; // returneaza obligativitatea aruncarii zarului
         Color get_current_player(void) const; // returneaza playerul curent
-        DicePair get_current_dice_pair(void) const; // returneaza zarurile aruncate
+        DicePair get_current_dices(void) const; // returneaza zarurile aruncate
         const std::set<Turn>& get_legal_moves(void) const; // retunreaza mutarile care se pot face;
         WinPair get_win_outcome(void) const; // returneaza starea de victorie(tipul victoriei/castigatorul)
                                              // Daca nu a castigat nimeni, "first" este egal cu not_won
@@ -77,7 +79,7 @@ namespace table
         PhaseType get_phase_type(void) const;
         DiceObligation get_dice_obligation(void) const;
         Color get_current_player(void) const;
-        DicePair get_current_dice_pair(void) const;
+        DicePair get_current_dices(void) const;
         const std::set<Turn>& get_legal_moves(void) const;
         WinPair get_win_outcome(void) const;
 

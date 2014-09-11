@@ -4,10 +4,12 @@
 #include <cstdint>
 #include <memory>
 #include "game_core.hpp"
-#include "phase.hpp"
 
 namespace table
 {
+    class IPhase;
+    class PhaseView;
+
     class IMatch
     {
         // interfata IMatch
