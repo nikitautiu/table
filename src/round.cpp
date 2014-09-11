@@ -14,7 +14,7 @@ namespace table {
                                    valid_moves() {
     }
 
-    explicit Round::Round(const Round& other) : current_board_state(other.current_board_state),
+   Round::Round(const Round& other) : current_board_state(other.current_board_state),
                                                       current_player(other.current_player),
                                                       winner(other.winner),
                                                       current_phase(other.current_phase),
