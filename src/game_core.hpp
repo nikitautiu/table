@@ -66,12 +66,16 @@ namespace table {
 /******************************************************************************
                             BOARDSTATE CLASS
 *******************************************************************************/
-    struct BoardState {
-        PointArray points;
-        std::array <unsigned int, 2> done;
-        std::array <unsigned int, 2> out;
-
+    class BoardState {
+    public : PointArray points;
+    private:
+        std::array<unsigned int, 2> done;
+        std::array<unsigned int, 2> out;
+    public:
         void init (void);
+
+        BoardState(void);                //constructor
+        BoardState(const BoardState&);   //constructor copiere
 
         int get_out(Color color) const; // nr scoase temporar
         int get_done(Color color) const; // nr scoase permanent
