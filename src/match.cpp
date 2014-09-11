@@ -17,9 +17,9 @@ namespace table
 /*******************************************************************************
                                 METODE PUBLICE
 *******************************************************************************/
-    PhaseView IMatch::get_current_phase(void) const
+    PhaseView IMatch::get_current_phase(void)
     {
-        return PhaseView(_current_phase.get(), *this);
+        return PhaseView(*(_current_phase), *this);
     }
 
     std::pair<int, int> IMatch::get_score(Color first_player) const
@@ -35,7 +35,7 @@ namespace table
         return _game_is_over;
     }
 
-    virtual void IMatch::next_phase(void)
+    void IMatch::next_phase(void)
     {
         // incompleta. a se chema din metodele derivate
         if(_game_is_over)

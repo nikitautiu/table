@@ -3,6 +3,8 @@
 
 #include <cstdint>
 #include "game_core.hpp"
+#include "match.hpp"
+#include "phase.hpp"
 
 namespace table
 {
@@ -12,7 +14,6 @@ namespace table
         // Specifica faza curenta a partidei(inceput, runda sau finalizata)
         // OPENING_ROLL = se poate doar da cu zarul, nu muta
         // GAME_PHASE = se poate si da cu zarul si muta
-        // GAME_END = partida a luat sfarsit
         OPENING_ROLL, GAME_PHASE
     };
 
@@ -42,8 +43,6 @@ namespace table
 
     public:
         IPhase(void); // constructor vid
-        IPhase(const IPhase&); // constructor de copiere          TODO: DE IMPLEMENTAT
-        IPhase& operator=(IPhase); // operator de copiere
 
         BoardState get_current_board_state(void) const; // returneaza starea curenta a tablei
         PhaseType get_phase_type(void) const; // returneaza un TypePhase cu tipul fazei
@@ -58,7 +57,7 @@ namespace table
         virtual void submit_moves(Turn) = 0; // Primeste o serie de mutari, daca sunt invalide, exceptie, daca nu, le efectueaza
     };
 
-    class PhaseView : public IPhase
+    class PhaseView
     {
         // clasa wrapper ce primeste un IPhase la constructie si poate fi ulterior
         // subscrisa la un obiect de tip IMatch. Actioneaza ca un proxy pt obiectul
@@ -71,7 +70,7 @@ namespace table
         IMatch* _observer;
 
     public:
-        PhaseView(const IPhase&, const IMatch&); // constructor wrapper
+        PhaseView(IPhase&, IMatch&); // constructor wrapper
 
         // toate restul metodelor functioneaza ca un proxy catre obiectul IPhase continut
         BoardState get_current_board_state(void) const;

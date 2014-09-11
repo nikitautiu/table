@@ -21,9 +21,8 @@ namespace table
         bool _game_is_over;
         void _set_score(Color, int); // folosita de mostenitori ca sa actualizeze scorul
     public:
-        Match(void); // constructor vid
-        Match(const Match&); // constructor de copiere
-        Match& operator=(Match); // operator de copiere
+        IMatch(void); // constructor vid
+
         // se vor putea adauga ulterior constructori care permit creearea personalizata cu reguli diferite(ex. pana la cat se joaca)
 
         PhaseView get_current_phase(void); // returneaza o noua faza de joc
