@@ -25,9 +25,9 @@ namespace table
     {
     }
 
-    PhaseView IMatch::get_current_phase(void)
+    std::unique_ptr<IPhase> IMatch::get_current_phase(void)
     {
-        return PhaseView(*(_current_phase), *this);
+        return std::unique_ptr<IPhase> (new PhaseView(*(_current_phase), *this));
     }
 
     std::pair<int, int> IMatch::get_score(Color first_player) const
