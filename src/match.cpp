@@ -18,6 +18,13 @@ namespace table
 /*******************************************************************************
                                 METODE PUBLICE
 *******************************************************************************/
+    IMatch::IMatch(void) :
+        _score(),
+        _current_phase(),
+        _game_is_over()
+    {
+    }
+
     PhaseView IMatch::get_current_phase(void)
     {
         return PhaseView(*(_current_phase), *this);

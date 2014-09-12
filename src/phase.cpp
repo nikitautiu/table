@@ -7,6 +7,17 @@ namespace table
 /*******************************************************************************
                             CLASA IPHASE
 *******************************************************************************/
+    IPhase::IPhase(void) :
+        _current_state(),
+        _phase_type(),
+        _dice_obligation(),
+        _current_player(),
+        _current_dices(),
+        _legal_moves(),
+        _win_outcome()
+    {
+    }
+
     BoardState IPhase::get_current_board_state(void) const
     {
 
@@ -73,7 +84,7 @@ namespace table
     {
     }
 
-     BoardState PhaseView::get_current_board_state(void) const
+    BoardState PhaseView::get_current_board_state(void) const
     {
 
         return _wrapped_phase->get_current_board_state();

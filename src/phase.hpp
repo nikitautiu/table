@@ -45,21 +45,22 @@ namespace table
 
     public:
         IPhase(void); // constructor vid
+        IPhase(const IPhase&);
 
-        BoardState get_current_board_state(void) const; // returneaza starea curenta a tablei
-        PhaseType get_phase_type(void) const; // returneaza un TypePhase cu tipul fazei
-        DiceObligation get_dice_obligation(void) const; // returneaza obligativitatea aruncarii zarului
-        Color get_current_player(void) const; // returneaza playerul curent
-        DicePair get_current_dices(void) const; // returneaza zarurile aruncate
-        const std::set<Turn>& get_legal_moves(void) const; // retunreaza mutarile care se pot face;
-        WinPair get_win_outcome(void) const; // returneaza starea de victorie(tipul victoriei/castigatorul)
+        virtual BoardState get_current_board_state(void) const; // returneaza starea curenta a tablei
+        virtual PhaseType get_phase_type(void) const; // returneaza un TypePhase cu tipul fazei
+        virtual DiceObligation get_dice_obligation(void) const; // returneaza obligativitatea aruncarii zarului
+        virtual Color get_current_player(void) const; // returneaza playerul curent
+        virtual DicePair get_current_dices(void) const; // returneaza zarurile aruncate
+        virtual const std::set<Turn>& get_legal_moves(void) const; // retunreaza mutarile care se pot face;
+        virtual WinPair get_win_outcome(void) const; // returneaza starea de victorie(tipul victoriei/castigatorul)
                                              // Daca nu a castigat nimeni, "first" este egal cu not_won
 
         virtual void roll_dice(void) = 0; // alea iacta est
-        virtual void submit_moves(Turn) = 0; // Primeste o serie de mutari, daca sunt invalide, exceptie, daca nu, le efectueaza
+        virtual void submit_moves(Turn); // Primeste o serie de mutari, daca sunt invalide, exceptie, daca nu, le efectueaza
     };
 
-    class PhaseView
+    class PhaseView : public IPhase
     {
         // clasa wrapper ce primeste un IPhase la constructie si poate fi ulterior
         // subscrisa la un obiect de tip IMatch. Actioneaza ca un proxy pt obiectul
@@ -75,16 +76,16 @@ namespace table
         PhaseView(IPhase&, IMatch&); // constructor wrapper
 
         // toate restul metodelor functioneaza ca un proxy catre obiectul IPhase continut
-        BoardState get_current_board_state(void) const;
-        PhaseType get_phase_type(void) const;
-        DiceObligation get_dice_obligation(void) const;
-        Color get_current_player(void) const;
-        DicePair get_current_dices(void) const;
-        const std::set<Turn>& get_legal_moves(void) const;
-        WinPair get_win_outcome(void) const;
+        virtual BoardState get_current_board_state(void) const override;
+        virtual PhaseType get_phase_type(void) const override;
+        virtual DiceObligation get_dice_obligation(void) const override;
+        virtual Color get_current_player(void) const override;
+        virtual DicePair get_current_dices(void) const override;
+        virtual const std::set<Turn>& get_legal_moves(void) const override;
+        virtual WinPair get_win_outcome(void) const override;
 
-        void roll_dice(void);
-        void submit_moves(Turn);
+        virtual void roll_dice(void) override;
+        virtual void submit_moves(Turn) override;
     };
 }
 #endif
