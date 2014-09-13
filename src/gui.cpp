@@ -3,6 +3,8 @@
 namespace table
 {
 
+	Gui::Gui(void) : m(), zaruri(), xz(), dxd(), dxu(), poz(){}
+
 	void Gui::draw(void)
 	{
 		system("cls"); //curata ecranul
@@ -45,9 +47,8 @@ namespace table
 
 	}
 
-	void Gui::update(PhaseView temp)
+	void Gui::update(BoardState bs)
 	{
-		BoardState bs = temp.get_current_board_state();
 		poz = bs.points; //tabla
 
 		dxd = 5;
@@ -86,14 +87,61 @@ namespace table
 		m[18][8] = bs.get_out(Color::BLACK); //scoase
 		m[18][10] = bs.get_out(Color::WHITE);
 
-		zario = temp.get_remaining_moves(); //zaruri ISSUE. nu exsista metoda care returneaza zarurile curente
+		/*
+		zaruri = temp.get_remaining_moves(); //zaruri ISSUE. nu exsista metoda care returneaza zarurile curente
 		xz = 35;
-		for (int i : zario)
+		for (int i : zaruri)
 		{
 			m[i][10] = i; 
 			xz += 2;
 		}
-
+		*/
 		draw();
+	}
+
+	void Gui::launch_menu(void)
+	{
+		int s;
+		system("color 8F");
+		system("cls"); //curata ecranul
+		std::cout << "				~BAGAMON~" << '\n';
+		std::cout << "-------------------------------------" << '\n';
+		std::cout << "1 - Joaca" << '\n';
+		std::cout << "2 - Despre" << '\n';
+		std::cout << "3 - Iesire" << '\n' << "Selectati o optiune: ";
+		system("pause>nul");
+		std::cin >> s;
+		if (s == 1 || s == 2 || s == 3)
+		{
+			if (s == 3)
+				system("exit");
+			else if (s == 2)
+			{
+			}
+			else if (s == 1)
+			{
+				system("cls");
+				std::cout << "1. Romanesti" << '\n';
+				std::cout << "2. Rusesti" << '\n';
+				system("pause>nul");
+				std::cin >> s;
+				if (s == 1 || s == 2)
+				{
+					if (s == 1)
+						match_ro_init();
+					else if (s == 2)
+						match_ro_init();
+				}
+			}
+		}
+		else
+			launch_menu();
+	}
+
+	void Gui::match_ro_init()
+	{
+		system("cls");
+		std::cout << "ROMANESti";
+
 	}
 }

@@ -1,22 +1,25 @@
-#ifndef _GUI_
-#define _GUI_
+#ifndef gui_hpp_guard
+#define gui_hpp_guard
 
 #include <iostream>
 #include "phase.hpp"
+#include "match.hpp"
+#include "helper_board.hpp"
+#include "variants\rules_ro.hpp"
 
 namespace table
 {	
 	class Gui
 	{
 	private:
-		char m[45][21];
-		int xz;
-		int dxd;
-		int dxu;
-		std::multiset <int> zario;
-		std::array<Point, NUM_POINTS> poz;
+		char m[45][21]; //matrice afisare continut
+		int xz; //increment afisare zaruri
+		int dxd; //increment afisare puncte jos
+		int dxu; //increment afisare puncte sus
+		std::multiset<int> zaruri; //multiset pentru zarurile ramase
+		PointArray poz;
 
-		void fillup(int dx, Point pt) // metoda umplere punct de pe interfata
+		void fillup(int dx, Point pt) // metoda umplere puncte de sus de pe interfata
 		{
 			char pul;
 			if (pt.color == Color::BLACK)
@@ -33,7 +36,7 @@ namespace table
 				m[dx][i] = pul;
 		}
 
-		void filldown(int dx, Point pt) // metoda umplere punct de pe interfata
+		void filldown(int dx, Point pt) // metoda umplere puncte de jos de pe interfata
 		{
 			char pul;
 			if (pt.color == Color::BLACK)
@@ -53,39 +56,18 @@ namespace table
 	public:
 		Gui(void); //constructor default
 
+		void match_ro_init(); //initializare partida romaneasca
+
 		void draw(void); //afisare matrice pe consola
 
 		void initialize(void); //margine interfata si desenare tabla
 		
-		void update(PhaseView temp); //tabla, iesite, scoase, zaruri si cursor(de implmentat)
+		void update(BoardState bs); //tabla, iesite, scoase, zaruri si cursor(de implmentat)
 		
+		void launch_menu(void); //deschidere meniu
 
-
-		void info(Backgammon temp) //scor, rand, text, stare joc
-		{
-			if (temp.get_current_player() == Color::WHITE && temp.get_phase == GamePhase::GAME) //rand
-			{
-				m[39][7] = ' ';
-				m[39][13] = 'R';
-			}
-				
-			else if (temp.get_phase == GamePhase::GAME)
-			{
-				m[39][7] = 'R';
-				m[39][13] = ' ';
-			}
-
-			else if (temp.get_phase() != GamePhase::GAME)
-			{
-				m[39][7] = ' ';
-				m[39][13] = ' ';
-			}
-
-
-			draw();
-		}
 	};
 }
 
 
-#endif _GUI_
+#endif gui_hpp_guard
