@@ -46,6 +46,8 @@
 		<Unit filename="src/gui.hpp" />
 		<Unit filename="src/helper_board.cpp" />
 		<Unit filename="src/helper_board.hpp" />
+		<Unit filename="src/history.cpp" />
+		<Unit filename="src/history.hpp" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/match.cpp" />
 		<Unit filename="src/match.hpp" />
