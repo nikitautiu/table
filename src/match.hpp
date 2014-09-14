@@ -27,7 +27,7 @@ namespace table
 
         // se vor putea adauga ulterior constructori care permit creearea personalizata cu reguli diferite(ex. pana la cat se joaca)
 
-        virtual PhaseView get_current_phase(void); // returneaza o noua faza de joc
+        virtual PhaseView get_current_phase(void); // returneaza o faza curenta de joc
         virtual std::pair<int, int> get_score(Color) const; // returneaza o perche a scorurilor cu culoare primita ca prima valoare
         virtual bool is_game_over(void) const; // retunreaza daca s-a terminat partida
 
