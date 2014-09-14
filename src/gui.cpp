@@ -47,8 +47,10 @@ namespace table
 
 	}
 
-	void Gui::update(BoardState bs)
+	void Gui::update(HelperBoard temp)
 	{
+
+		BoardState bs = temp.get_board_state();
 		poz = bs.points; //tabla
 
 		dxd = 5;
@@ -87,15 +89,14 @@ namespace table
 		m[18][8] = bs.get_out(Color::BLACK); //scoase
 		m[18][10] = bs.get_out(Color::WHITE);
 
-		/*
-		zaruri = temp.get_remaining_moves(); //zaruri ISSUE. nu exsista metoda care returneaza zarurile curente
+		zaruri = temp.get_remaining_moves(); //zaruri
 		xz = 35;
 		for (int i : zaruri)
 		{
 			m[i][10] = i; 
 			xz += 2;
 		}
-		*/
+	
 		draw();
 	}
 

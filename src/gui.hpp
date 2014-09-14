@@ -62,7 +62,7 @@ namespace table
 
 		void initialize(void); //margine interfata si desenare tabla
 		
-		void update(BoardState bs); //tabla, iesite, scoase, zaruri si cursor(de implmentat)
+		void update(HelperBoard temp); //tabla, iesite, scoase, zaruri si cursor(de implmentat)
 		
 		void launch_menu(void); //deschidere meniu
 
