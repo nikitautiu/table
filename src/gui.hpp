@@ -6,6 +6,8 @@
 #include "match.hpp"
 #include "helper_board.hpp"
 #include "variants\rules_ro.hpp"
+#include <chrono>
+#include <thread>
 
 namespace table
 {	
@@ -17,7 +19,7 @@ namespace table
 		int dxd; //increment afisare puncte jos
 		int dxu; //increment afisare puncte sus
 		std::multiset<int> zaruri; //multiset pentru zarurile ramase
-		PointArray poz;
+		PointArray poz; //array de puncte pentru afisare
 
 		void fillup(int dx, Point pt) // metoda umplere puncte de sus de pe interfata
 		{
@@ -60,11 +62,16 @@ namespace table
 
 		void draw(void); //afisare matrice pe consola
 
+		void dice(DicePair temp); //afisare zaruri
+
+		void draw_score(const IMatch& temp); //afisare scor
+
 		void initialize(void); //margine interfata si desenare tabla
 		
-		void update(HelperBoard temp); //tabla, iesite, scoase, zaruri si cursor(de implmentat)
+		void update(HelperBoard temp); //tabla, iesite, scoase, zaruri, rand si cursor(de implmentat)
 		
 		void launch_menu(void); //deschidere meniu
+
 
 	};
 }

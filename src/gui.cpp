@@ -3,7 +3,7 @@
 namespace table
 {
 
-	Gui::Gui(void) : m(), zaruri(), xz(), dxd(), dxu(), poz(){}
+	Gui::Gui(void) : zaruri(), xz(), dxd(), dxu(), poz(){}
 
 	void Gui::draw(void)
 	{
@@ -97,6 +97,26 @@ namespace table
 			xz += 2;
 		}
 	
+		Color cp = temp.get_current_player(); //rand
+		if (cp == Color::BLACK)
+		{
+			m[39][13] = 'X';
+			m[39][7] = ' ';
+		}
+
+		else
+		{
+			m[39][13] = ' ';
+			m[39][7] = 'X';
+		}
+
+		draw(); //desenare matrice
+	}
+
+	void Gui::dice(DicePair temp)
+	{
+		m[35][10] = temp.first;
+		m[37][10] = temp.second;
 		draw();
 	}
 
@@ -139,10 +159,84 @@ namespace table
 			launch_menu();
 	}
 
+	void Gui::draw_score(const IMatch& temp)
+	{
+		std::pair<int, int> scor = temp.get_score(Color::BLACK);
+		m[37][7] = scor.second;
+		m[37][13] = scor.first;
+		draw();
+	}
+
 	void Gui::match_ro_init()
 	{
-		system("cls");
-		std::cout << "ROMANESti";
+		RoMatch meci(3,true);
+		auto faza = meci.get_current_phase();
+		while (faza->get_win_outcome().first == "not_won")
+		{
+			std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+			faza->roll_dice();
+			DicePair p = faza->get_current_dices();
+			dice(p);
+			std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+			faza->roll_dice();
+			DicePair m = faza->get_current_dices();
+			dice(m);
+		}
+		while (!meci.is_game_over())
+		{
+			meci.next_phase();
+			faza = meci.get_current_phase();
+			while (faza->get_win_outcome().first == "not_won")
+			{
+				std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+				faza->roll_dice();
+				HelperBoard temp(*faza);
+				bool ok = true;
+				bool can_undo = false;
+				bool gata = false;
+				while ( !gata )
+				{
+					int undo;
+					if (can_undo)
+					{
+						std::cout << "Anulati mutarea? (1|0) ";
+						std::cin >> undo;
+						if (undo == 1)
+						{
+							temp.pop_move();
+						}
+						if (temp.is_turn_done())
+							gata = true;
+						else
+							ok = true;
 
+					}
+					while (ok)
+					{
+						update(temp);
+						CheckerMove cm;
+						std::cout << '/n' << "Pozitie: ";
+						std::cin >> cm.first;
+						std::cout << '\n' << "Increment: ";
+						std::cin >> cm.second;
+						std::set<CheckerMove> pos_mov = temp.get_immediately_legal_moves();
+						for (CheckerMove i : pos_mov)
+						{
+							if (i == cm)
+							{
+								ok = false;
+								temp.push_move(cm);
+								can_undo = true;
+								break;
+							}
+						}
+					}
+				}
+				if (gata)
+					faza->submit_moves(temp.get_turn());
+			}
+			meci.next_phase();
+			draw_score(meci);
+		}
 	}
 }

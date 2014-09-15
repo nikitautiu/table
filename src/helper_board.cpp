@@ -11,9 +11,8 @@ namespace table {
                                      valid_moves() {
     }
 
-    HelperBoard::HelperBoard(const Round& round) {
-        init_from_board(round);
-
+    HelperBoard::HelperBoard(const IPhase& phase) {
+        init_from_board(phase);
     }
 
     HelperBoard::HelperBoard(const HelperBoard& other) : current_board_state(other.current_board_state),
@@ -22,12 +21,12 @@ namespace table {
                                                          remaining_moves(other.remaining_moves) {
     }
 
-    void HelperBoard::init_from_board(const Round& round) {
-        current_board_state = round.get_board_state();
-        player = round.get_current_player();
-        dices = round.get_dice();
+    void HelperBoard::init_from_board(const IPhase& phase) {
+        current_board_state = phase.get_current_board_state();
+        player = phase.get_current_player();
+        dices = phase.get_current_dices();
         remaining_moves = std::multiset<int> ();
-        valid_moves = &(round.get_legal_moves());
+        valid_moves = &(phase.get_legal_moves());
 
         if ( dices.first == dices.second )
             for (int i = 0; i < 4; ++i)
@@ -92,5 +91,9 @@ namespace table {
         if ( get_immediately_legal_moves().empty() )
             return true;
         return false;
+    }
+
+    Color HelperBoard::get_current_player(void) const {
+        return this->player;
     }
 }
