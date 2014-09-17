@@ -92,13 +92,6 @@ namespace table {
     {
     }
 
-    void BoardState::init (void) {
-        points[0]  = Point(Color::WHITE, 2), points[NUM_POINTS-1]  = Point(Color::BLACK, 2);
-        points[5]  = Point(Color::WHITE, 5), points[NUM_POINTS-6]  = Point(Color::BLACK, 5);
-        points[7]  = Point(Color::WHITE, 3), points[NUM_POINTS-8]  = Point(Color::BLACK, 3);
-        points[12] = Point(Color::WHITE, 5), points[NUM_POINTS-13] = Point(Color::BLACK, 5);
-    }
-
     int BoardState::get_out(Color color) const {
         // primeste culoare si returneaza cate scoase de culoara aia is
         int poz = (color ==  Color::WHITE ? 0 : 1);

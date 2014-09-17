@@ -7,6 +7,7 @@
 #include <set>
 #include <utility>
 #include <exception>
+#include <string>
 
 namespace table {
 /******************************************************************************
@@ -56,11 +57,11 @@ namespace table {
     using DicePair = std::pair <int, int>;
     using WinPair = std::pair<std::string, Color>; // pereche tip de victorie/invingator
 
+    const auto NOT_WON_STRING = std::string("not_won");
+
     enum class RoundPhase : int8_t {
         STARTING, GAME, NORMAL_WIN, TECHNICAL_WIN
     };
-
-
 
 
 /******************************************************************************
@@ -72,8 +73,6 @@ namespace table {
         std::array<unsigned int, 2> done;
         std::array<unsigned int, 2> out;
     public:
-        void init (void);
-
         BoardState(void);                //constructor
         BoardState(const BoardState&);   //constructor copiere
 

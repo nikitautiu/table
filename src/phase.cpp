@@ -14,7 +14,7 @@ namespace table
         _current_player(),
         _current_dices(),
         _legal_moves(),
-        _win_outcome()
+        _win_outcome(std::make_pair(NOT_WON_STRING, Color::WHITE))
     {
     }
 

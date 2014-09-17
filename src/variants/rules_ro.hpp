@@ -35,7 +35,7 @@ namespace table
         std::unique_ptr<RoOpeningRollPhase> _opening_roll_phase;
         std::unique_ptr<RoGamePhase> _game_phase;
     public:
-        RoMatch(int, bool);
+        RoMatch(int=3, bool=true);
 
         virtual void next_phase(void) override;
         virtual void on_phase_action(void) override;
@@ -44,6 +44,9 @@ namespace table
 
     class RoGamePhase : public IPhase
     {
+    private:
+        void _init_board_state(void);
+        void _compute_legal_moves(void);
     public:
         RoGamePhase(Color, DicePair=DicePair(0, 0)); // creeaza o linie cu un player care incepe si un posibil zar de inceput
 
