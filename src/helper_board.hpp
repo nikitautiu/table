@@ -3,6 +3,7 @@
 
 #include "game_core.hpp"
 #include "round.hpp"
+#include "phase.hpp"
 
 namespace table {
 /******************************************************************************
@@ -21,13 +22,14 @@ namespace table {
     public:
         // clasa pe care poti face mutari, da undo, verifica legalitatea lor etc
         HelperBoard(void);
-        HelperBoard(const Round&); // initializeaza o tabla temporara din clasa de joc
+        HelperBoard(const IPhase&); // initializeaza o tabla temporara din clasa de joc
         HelperBoard(const HelperBoard&); // constructor copiere
         HelperBoard& operator=(HelperBoard); // operator copiere
 
-        void init_from_board(const Round&);
+        void init_from_board(const IPhase&);
 
-        BoardState get_board_state(void) const;
+        BoardState get_board_state(void) const; // getter
+        Color get_current_player(void) const; // getter
         Turn get_turn(void) const; // returneaza mutarile de pana acuma
         void push_move(CheckerMove); // face o mutare. daca ilegala, arunca exceptie
         void pop_move(void); // da undo la ultima mutare
