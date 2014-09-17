@@ -198,34 +198,57 @@ namespace table
 /*******************************************************************************
                             CLASA RODICEHELPER
 *******************************************************************************/
-        RoDiceHelper::RoDiceHelper(Color player)
+        RoDiceHelper::RoDiceHelper(Color player) : _player(player),
+                                                   _winner(),
+                                                   _dices(std::make_pair(0, 0)),
+                                                   _is_done(false)
         {
-            // TODO: De Implementat
-            // primeste playerul care incepe
         }
 
-        void RoDiceHelper::give_dice(DicePair)
+        void RoDiceHelper::give_dice(DicePair dice_pair)
         {
-            // TODO: De Implementat
-            // da zarurile arunctae. progreseaza algoritmul
+            if ( _dices.first == 0 && _dices.second == 0 )
+                _dices = dice_pair;
+            else
+            {
+                if ( (dice_pair.first + dice_pair.second) ==(_dices.first + _dices.second) )
+                {
+                    _player = -_player;
+                    return;
+                }
+                if ( (dice_pair.first + dice_pair.second) < (_dices.first + _dices.second) )
+                {
+                    _is_done = true;
+                    _winner = _player;
+                }
+                else
+                {
+                    _is_done = true;
+                    _winner = -_player;
+                }
+            }
+            _player = -_player;
         }
 
         bool RoDiceHelper::is_done(void) const
         {
-            // TODO: De Implementat
-            // returneaza true daca s-a castigat cineva darea cu zarul
+            if ( _is_done )
+                return true;
+            return false;
         }
 
         Color RoDiceHelper::get_winner(void) const
         {
-            // TODO: De Implementat
-            // returneaza castigatorul
+            if ( !is_done() )
+                throw std::runtime_error("No winner yet.");
+            return _winner;
         }
 
         std::pair<bool, DicePair> RoDiceHelper::get_double_pair(void) const
         {
-            // TODO: De Implementat
-            // returneaza o perche de  tipul (true/false daca e dubla, daca e dubla: valoarea dublei)
+            if ( _dices.first != _dices.second )
+                return std::make_pair(false, DicePair(0, 0));
+            return std::make_pair(true, _dices);
         }
     }
 
