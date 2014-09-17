@@ -14,7 +14,8 @@ namespace table
         _current_player(),
         _current_dices(),
         _legal_moves(),
-        _win_outcome(std::make_pair(NOT_WON_STRING, Color::WHITE))
+        _win_outcome(std::make_pair(NOT_WON_STRING, Color::WHITE)),
+        _board_process_func()
     {
     }
 
@@ -77,6 +78,11 @@ namespace table
             throw std::runtime_error("This is not a valid move");
     }
 
+    std::function<BoardState(BoardState, Turn)> IPhase::get_board_processing_function(void) const
+    {
+        return _board_process_func;
+    }
+
 /*******************************************************************************
                             CLASA PHASEVIEW
 *******************************************************************************/
@@ -130,5 +136,10 @@ namespace table
     {
         _wrapped_phase->submit_moves(moves);
         _observer->on_phase_action();
+    }
+
+    std::function<BoardState(BoardState, Turn)> PhaseView::get_board_processing_function(void) const
+    {
+        return _wrapped_phase->get_board_processing_function();
     }
 }

@@ -312,6 +312,7 @@ namespace table
     RoGamePhase::RoGamePhase(Color starting_player, DicePair starting_double) :
         IPhase()
     {
+        _board_process_func = process_board;
         _current_player = starting_player;
         if(starting_double != DicePair(0, 0))
         {

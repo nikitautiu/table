@@ -2,7 +2,6 @@
 #define helper_board_guard
 
 #include "game_core.hpp"
-#include "round.hpp"
 #include "phase.hpp"
 
 namespace table {

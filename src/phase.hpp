@@ -2,6 +2,7 @@
 #define phase_hpp_guard
 
 #include <cstdint>
+#include <functional>
 #include "game_core.hpp"
 #include "match.hpp"
 #include "phase.hpp"
@@ -42,6 +43,7 @@ namespace table
         DicePair _current_dices;
         std::set<Turn> _legal_moves;
         WinPair _win_outcome;
+        std::function <BoardState(BoardState, Turn)> _board_process_func;
 
     public:
         IPhase(void); // constructor vid
@@ -58,6 +60,8 @@ namespace table
 
         virtual void roll_dice(void) = 0; // alea iacta est
         virtual void submit_moves(Turn); // Primeste o serie de mutari, daca sunt invalide, exceptie, daca nu, le efectueaza
+
+        virtual std::function<BoardState(BoardState, Turn)> get_board_processing_function(void) const; // returneaz funcita de procesare a tablelor
     };
 
     class PhaseView : public IPhase
@@ -86,6 +90,8 @@ namespace table
 
         virtual void roll_dice(void) override;
         virtual void submit_moves(Turn) override;
+
+        virtual std::function<BoardState(BoardState, Turn)> get_board_processing_function(void) const override;
     };
 }
 #endif
