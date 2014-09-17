@@ -51,8 +51,6 @@
 		<Unit filename="src/match.hpp" />
 		<Unit filename="src/phase.cpp" />
 		<Unit filename="src/phase.hpp" />
-		<Unit filename="src/rules.cpp" />
-		<Unit filename="src/rules.hpp" />
 		<Unit filename="src/variants/rules_ro.cpp" />
 		<Unit filename="src/variants/rules_ro.hpp" />
 		<Extensions>

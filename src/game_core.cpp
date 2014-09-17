@@ -1,7 +1,6 @@
 #include <exception>
 #include "game_core.hpp"
 #include "dice.hpp"
-#include "rules.hpp"
 
 namespace table {
     Color operator-(Color color) {
