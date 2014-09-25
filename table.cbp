@@ -85,11 +85,15 @@
 			<Option target="TestRelease" />
 			<Option target="TestsDebug" />
 		</Unit>
-		<Unit filename="tests/test_boardstate.cpp">
+		<Unit filename="tests/test_gamecore.cpp">
 			<Option target="TestsDebug" />
 			<Option target="TestRelease" />
 		</Unit>
 		<Unit filename="tests/test_main.cpp">
+			<Option target="TestsDebug" />
+			<Option target="TestRelease" />
+		</Unit>
+		<Unit filename="tests/test_rules_ro.cpp">
 			<Option target="TestsDebug" />
 			<Option target="TestRelease" />
 		</Unit>
