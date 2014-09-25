@@ -15,14 +15,19 @@ namespace table
     {
         class RoDiceHelper
         {
-        public:
-            // TODO: de implementat
-            RoDiceHelper(Color); // primeste playerul care incepe
+            private:
+                Color _player;
+                Color _winner;
+                DicePair _dices;
+                bool _is_done;
 
-            void give_dice(DicePair); // da zarurile arunctae. progreseaza algoritmul
-            bool is_done(void) const; // returneaza true daca s-a castigat cineva darea cu zarul
-            Color get_winner(void) const; // returneaza castigatorul
-            std::pair<bool, DicePair> get_double_pair(void) const; // returneaza o perche de  tipul (bool e dubla?, DicePair daca da atunci dubla)
+            public:
+                RoDiceHelper(Color); // primeste playerul care incepe
+
+                void give_dice(DicePair); // da zarurile arunctae. progreseaza algoritmul
+                bool is_done(void) const; // returneaza true daca s-a castigat cineva darea cu zarul
+                Color get_winner(void) const; // returneaza castigatorul
+                std::pair<bool, DicePair> get_double_pair(void) const; // returneaza o perche de  tipul (bool e dubla?, DicePair daca da atunci dubla)
         };
     }
 
