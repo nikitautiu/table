@@ -205,17 +205,37 @@ namespace table
         {
         }
 
+        void RoDiceHelper::init(Color next_player)
+        {
+            _player = next_player;
+            _dices = std::make_pair(0, 0);
+            _is_done = false;
+        }
+
         void RoDiceHelper::give_dice(DicePair dice_pair)
         {
-            if ( _dices.first == 0 && _dices.second == 0 )
+            if ( _dices.first == 0 && _dices.second == 0 ) // daca este primul zar primit nu se intampla mare lucru
                 _dices = dice_pair;
             else
             {
-                if ( (dice_pair.first + dice_pair.second) ==(_dices.first + _dices.second) )
+                if ( (dice_pair.first + dice_pair.second) == (_dices.first + _dices.second) ) // daca suma este egala
                 {
-                    _player = -_player;
-                    return;
+                    if ( DiceUtils::DiceIsDouble(dice_pair) != get_double_pair().first ) // daca unul dintre zaruri e dubla
+                    {
+                        _is_done = true; // sigur va castiga cineva
+                        if ( DiceUtils::DiceIsDouble(dice_pair) )
+                            _winner = -_player;
+                        else
+                            _winner = _player;
+                        return;
+                    }
+                    else // daca suma este egala si niciunul dintre zaruri nu e dubla atunci nu castiga nimeni si se da din nou
+                    {
+                        init(-_player);
+                        return;
+                    }
                 }
+
                 if ( (dice_pair.first + dice_pair.second) < (_dices.first + _dices.second) )
                 {
                     _is_done = true;

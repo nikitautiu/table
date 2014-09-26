@@ -2,6 +2,10 @@
 
 namespace table {
 
+/***********************************************************************************
+                            GLOBAL NAMESPACE
+***********************************************************************************/
+
 	P_INT double_dice_roll()
 	{
         std::time_t time = std::time(NULL);
@@ -24,5 +28,30 @@ namespace table {
 
         return dice_roll1;
 	}
+
+/***********************************************************************************
+                            CLASS DICEUTILS
+***********************************************************************************/
+
+    bool DiceUtils::DiceIsValid(DicePair dice_pair)
+    {
+        if ( dice_pair.first < 1 || dice_pair.first > 6 )
+            return false;
+        if ( dice_pair.second < 1 || dice_pair.second > 6 )
+            return false;
+        return true;
+    }
+
+    bool DiceUtils::DiceIsDouble(DicePair dice_pair)
+    {
+        if ( dice_pair.first == dice_pair.second )
+            return true;
+        return false;
+    }
+
+    int DiceUtils::DiceSum(DicePair dice_pair)
+    {
+        return dice_pair.first + dice_pair.second;
+    }
 
 }

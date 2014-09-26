@@ -1,9 +1,15 @@
+//
+//  Headerul contine clasele responsabile de varianta romaneasca de joc.
+//
+//
+//
 #ifndef rulesro_hpp_guard
 #define rulesro_hpp_guard
 
 #include "../game_core.hpp"
 #include "../match.hpp"
 #include "../phase.hpp"
+#include "../dice.hpp"
 
 namespace table
 {
@@ -15,11 +21,14 @@ namespace table
     {
         class RoDiceHelper
         {
+            // ajuta la calcularea jucatorului care incepe
             private:
                 Color _player;
                 Color _winner;
                 DicePair _dices;
                 bool _is_done;
+
+                void init(Color next_player);
 
             public:
                 RoDiceHelper(Color); // primeste playerul care incepe
