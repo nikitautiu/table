@@ -31,6 +31,31 @@
 					<Add option="-s" />
 				</Linker>
 			</Target>
+			<Target title="TestsDebug">
+				<Option output="bin/Debug/table_tests" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-pedantic" />
+					<Add option="-std=c++11" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="TestRelease">
+				<Option output="bin/Release/table_tests" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-pedantic" />
@@ -46,13 +71,32 @@
 		<Unit filename="src/gui.hpp" />
 		<Unit filename="src/helper_board.cpp" />
 		<Unit filename="src/helper_board.hpp" />
-		<Unit filename="src/main.cpp" />
+		<Unit filename="src/main.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/match.cpp" />
 		<Unit filename="src/match.hpp" />
 		<Unit filename="src/phase.cpp" />
 		<Unit filename="src/phase.hpp" />
 		<Unit filename="src/variants/rules_ro.cpp" />
 		<Unit filename="src/variants/rules_ro.hpp" />
+		<Unit filename="tests/catch.hpp">
+			<Option target="TestRelease" />
+			<Option target="TestsDebug" />
+		</Unit>
+		<Unit filename="tests/test_gamecore.cpp">
+			<Option target="TestsDebug" />
+			<Option target="TestRelease" />
+		</Unit>
+		<Unit filename="tests/test_main.cpp">
+			<Option target="TestsDebug" />
+			<Option target="TestRelease" />
+		</Unit>
+		<Unit filename="tests/test_rules_ro.cpp">
+			<Option target="TestsDebug" />
+			<Option target="TestRelease" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />
