@@ -1,7 +1,7 @@
-#inclued "catch.hpp"
+#include "catch.hpp"
 #include "../src/variants/rules_ro.hpp"
 
-TEST_CASE("RoDiceHelper functioneaza cum trebuie", "[ro_rules][RoDiceHelper][failing]")
+TEST_CASE("RoDiceHelper functioneaza cum trebuie", "[ro_rules][RoDiceHelper]")
 {
     SECTION("se castiga din prima")
     {
@@ -10,9 +10,9 @@ TEST_CASE("RoDiceHelper functioneaza cum trebuie", "[ro_rules][RoDiceHelper][fai
         helper.give_dice(std::make_pair(5, 3));
 
         REQUIRE(helper.is_done());
-        REUQIRE(helper.get_wiiner() == table::Color::BLACK);
+        REQUIRE(helper.get_winner() == table::Color::BLACK);
 
         auto double_pair = helper.get_double_pair();
-        REQUIRE(!helper.first());
+        REQUIRE(!double_pair.first);
     }
 }
