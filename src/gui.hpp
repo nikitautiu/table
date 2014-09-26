@@ -1,3 +1,29 @@
+<<<<<<< HEAD
+#ifndef gui_hpp_guard
+#define gui_hpp_guard
+
+#include <iostream>
+#include "phase.hpp"
+#include "match.hpp"
+#include "helper_board.hpp"
+#include "variants\rules_ro.hpp"
+#include <chrono>
+#include <thread>
+
+namespace table
+{	
+	class Gui
+	{
+	private:
+		char m[45][21]; //matrice afisare continut
+		int xz; //increment afisare zaruri
+		int dxd; //increment afisare puncte jos
+		int dxu; //increment afisare puncte sus
+		std::multiset<int> zaruri; //multiset pentru zarurile ramase
+		PointArray poz; //array de puncte pentru afisare
+
+		void fillup(int dx, Point pt) // metoda umplere puncte de sus de pe interfata
+=======
 #ifndef _GUI_
 #define _GUI_
 
@@ -17,6 +43,7 @@ namespace table
 		std::array <Point, NUM_POINTS> poz;
 
 		void fillup(int dx, Point pt) // metoda umplere punct de pe interfata
+>>>>>>> master
 		{
 			char pul;
 			if (pt.color == Color::BLACK)
@@ -33,7 +60,11 @@ namespace table
 				m[dx][i] = pul;
 		}
 
+<<<<<<< HEAD
+		void filldown(int dx, Point pt) // metoda umplere puncte de jos de pe interfata
+=======
 		void filldown(int dx, Point pt) // metoda umplere punct de pe interfata
+>>>>>>> master
 		{
 			char pul;
 			if (pt.color == Color::BLACK)
@@ -53,6 +84,23 @@ namespace table
 	public:
 		Gui(void); //constructor default
 
+<<<<<<< HEAD
+		void match_ro_init(); //initializare partida romaneasca
+
+		void draw(void); //afisare matrice pe consola
+
+		void dice(DicePair temp); //afisare zaruri
+
+		void draw_score(const IMatch& temp); //afisare scor
+
+		void initialize(void); //margine interfata si desenare tabla
+		
+		void update(HelperBoard temp); //tabla, iesite, scoase, zaruri, rand si cursor(de implmentat)
+		
+		void launch_menu(void); //deschidere meniu
+
+
+=======
 		void draw(void) //afisare matrice pe consola
 		{
 			system("cls");
@@ -153,8 +201,13 @@ namespace table
 		{
 
 		}
+>>>>>>> master
 	};
 }
 
 
+<<<<<<< HEAD
+#endif gui_hpp_guard
+=======
 #endif _GUI_
+>>>>>>> master
