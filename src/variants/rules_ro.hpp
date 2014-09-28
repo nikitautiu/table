@@ -59,10 +59,12 @@ namespace table
     class RoGamePhase : public IPhase
     {
     private:
+        void _init(void);
         void _init_board_state(void);
         void _compute_legal_moves(void);
     public:
         RoGamePhase(Color, DicePair=DicePair(0, 0)); // creeaza o linie cu un player care incepe si un posibil zar de inceput
+        explicit RoGamePhase(const BoardState&, Color, DicePair=DicePair(0, 0)); // construieste si cheama
 
         virtual void roll_dice(void) override;
         virtual void submit_moves(Turn) override;

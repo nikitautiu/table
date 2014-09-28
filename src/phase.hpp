@@ -47,7 +47,7 @@ namespace table
 
     public:
         IPhase(void); // constructor vid
-        IPhase(const IPhase&);
+        IPhase(const IPhase&); // constructor copiere
 
         virtual BoardState get_current_board_state(void) const; // returneaza starea curenta a tablei
         virtual PhaseType get_phase_type(void) const; // returneaza un TypePhase cu tipul fazei
@@ -76,8 +76,13 @@ namespace table
         IPhase* _wrapped_phase;
         IMatch* _observer;
 
+
+
     public:
         PhaseView(IPhase&, IMatch&); // constructor wrapper
+
+        PhaseView(void) = delete;                // FACUTI
+        PhaseView(const IPhase&) = delete;       // INACCESIBILI
 
         // toate restul metodelor functioneaza ca un proxy catre obiectul IPhase continut
         virtual BoardState get_current_board_state(void) const override;

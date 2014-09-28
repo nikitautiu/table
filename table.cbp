@@ -68,7 +68,6 @@
 		<Unit filename="src/dice.hpp" />
 		<Unit filename="src/game_core.cpp" />
 		<Unit filename="src/game_core.hpp" />
-		<Unit filename="src/gui.cpp" />
 		<Unit filename="src/gui.hpp" />
 		<Unit filename="src/helper_board.cpp" />
 		<Unit filename="src/helper_board.hpp" />

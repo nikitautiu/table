@@ -99,3 +99,6 @@ TEST_CASE("RoDiceHelper functioneaza cum trebuie", "[ro_rules][RoDiceHelper]")
         REQUIRE(!helper.is_done());
     }
 }
+
+
+

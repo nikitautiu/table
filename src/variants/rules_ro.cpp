@@ -355,8 +355,10 @@ namespace table
     RoGamePhase::RoGamePhase(Color starting_player, DicePair starting_double) :
         IPhase()
     {
+        _phase_type = PhaseType::GAME_PHASE;
         _board_process_func = process_board;
         _current_player = starting_player;
+
         if(starting_double != DicePair(0, 0))
         {
             // cu dubla de inceput
@@ -366,13 +368,33 @@ namespace table
         else
             _dice_obligation = DiceObligation::MUST_ROLL;
 
-        _phase_type = PhaseType::GAME_PHASE;
         _init_board_state();
     }
 
+    RoGamePhase::RoGamePhase(const BoardState& state, Color player, DicePair dices) :
+        IPhase()
+    {
+        _phase_type = PhaseType::GAME_PHASE;
+        _board_process_func = process_board;
+        _current_player = player;
+        _current_state = state;
+
+        if(dices != DicePair(0, 0))
+        {
+            _dice_obligation = DiceObligation::CAN_NOT_ROLL;
+            _current_dices = dices;
+        }
+        else
+            _dice_obligation = DiceObligation::MUST_ROLL;
+
+        _compute_legal_moves();
+        _win_outcome = internal::get_win_outcome(_current_state);
+    }
+
+
     void RoGamePhase::_init_board_state(void)
     {
-        PointArray& points = _current_state.points;
+        auto& points = _current_state.points;
 
         points[0]  = Point(Color::WHITE, 2), points[NUM_POINTS-1]  = Point(Color::BLACK, 2);
         points[5]  = Point(Color::WHITE, 5), points[NUM_POINTS-6]  = Point(Color::BLACK, 5);
