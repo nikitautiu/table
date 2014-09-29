@@ -74,18 +74,19 @@ namespace table {
     std::set<CheckerMove> HelperBoard::get_immediately_legal_moves(void) const
     {
         std::set<CheckerMove> rval;
-        for ( auto i : *_valid_moves )
+        for(auto i : *_valid_moves)
         {
             bool valid;
-            for (unsigned int ii = 0; ii < i.size() &&
-                                      ii < _history.size(); ++ii)
+            for(unsigned int ii = 0; ii < i.size() &&
+                ii < _history.size(); ++ii)
             {
-                if ( i[ii] != _history[ii] ) {
+                if(i[ii] != _history[ii])
+                {
                     valid = false;
                     break;
                 }
             }
-            if ( valid && _history.size() < i.size() )
+            if(valid && _history.size() < i.size())
                 rval.insert(i[_history.size()]);
 
         }
