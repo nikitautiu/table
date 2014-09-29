@@ -4,10 +4,10 @@ namespace table {
 /******************************************************************************
                         HELPERBOARD CLASS
 *******************************************************************************/
-    HelperBoard::HelperBoard(void) : current_board_state(),
+    HelperBoard::HelperBoard(void) : _initial_board_state(),
+                                     _current_board_state(),
                                      player(),
                                      dices(),
-                                     remaining_moves(),
                                      valid_moves() {
     }
 
@@ -15,25 +15,21 @@ namespace table {
         init_from_board(phase);
     }
 
-    HelperBoard::HelperBoard(const HelperBoard& other) : current_board_state(other.current_board_state),
+    HelperBoard::HelperBoard(const HelperBoard& other) : _initial_board_state(other._initial_board_state),
+                                                         _current_board_state(other._current_board_state),
                                                          player(other.player),
                                                          dices(other.dices),
                                                          remaining_moves(other.remaining_moves) {
     }
 
     void HelperBoard::init_from_board(const IPhase& phase) {
-        current_board_state = phase.get_current_board_state();
+        _initial_board_state = phase.get_current_board_state();
+        _current_board_state = _initial_board_state;
         player = phase.get_current_player();
         dices = phase.get_current_dices();
         remaining_moves = std::multiset<int> ();
         valid_moves = &(phase.get_legal_moves());
-
-        if ( dices.first == dices.second )
-            for (int i = 0; i < 4; ++i)
-                remaining_moves.insert(dices.first);
-        else
-            remaining_moves.insert(dices.first),
-            remaining_moves.insert(dices.second);
+        _board_process_func = phase.get_board_processing_function();
     }
 
     HelperBoard& HelperBoard::operator=(HelperBoard other)  {
@@ -43,7 +39,7 @@ namespace table {
     }
 
     BoardState HelperBoard::get_board_state(void) const {
-        return current_board_state;
+        return _current_board_state;
     }
 
     Turn HelperBoard::get_turn(void) const {
@@ -52,10 +48,12 @@ namespace table {
 
     void HelperBoard::push_move(CheckerMove checkerMove) {
         history.push_back(checkerMove);
+        _current_board_state = _board_process_func(_initial_board_state, history);
     }
 
     void HelperBoard::pop_move(void) {
         history.pop_back();
+        _current_board_state = _board_process_func(_initial_board_state, history);
     }
 
     const std::set <Turn>& HelperBoard::get_legal_moves(void) const {

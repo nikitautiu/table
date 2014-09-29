@@ -10,13 +10,15 @@ namespace table {
 *******************************************************************************/
     class HelperBoard {
     private:
-        BoardState current_board_state; // asta se initializeaza din bagamon. dupa se modifica cand se fac mutari
+        BoardState _initial_board_state; // asta se initializeaza din bagamon.
+        BoardState _current_board_state; // dupa modificari
         Color player; // playeru care face mutaorile
         DicePair dices; // zarurile cu care se lucreaza
         Turn history;   // se pusheaza aici toate mutarile ( first = poz.init, second = nr mutari )
         std::multiset<int> remaining_moves; // mutarile ramase cu care se lucreaza
 
         const std::set <Turn> *valid_moves; // pointer catre mutarile valide din Round
+        std::function <BoardState(BoardState, Turn)> _board_process_func; // functie pt facut mutarile partiale
 
     public:
         // clasa pe care poti face mutari, da undo, verifica legalitatea lor etc
