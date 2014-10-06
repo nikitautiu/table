@@ -9,16 +9,19 @@
 #include <exception>
 #include <string>
 
-namespace table {
+namespace table
+{
 /******************************************************************************
                         POINT CLASS
 *******************************************************************************/
-    enum class Color : int8_t {
+    enum class Color : int8_t
+    {
         // tipurile de table/jucatori
         WHITE = -1, BLACK = 1
     };
 
-    struct Point {
+    struct Point
+    {
         Color color;
         int number;
 
@@ -61,7 +64,8 @@ namespace table {
 
     const auto NOT_WON_STRING = std::string("not_won");
 
-    enum class RoundPhase : int8_t {
+    enum class RoundPhase : int8_t
+    {
         STARTING, GAME, NORMAL_WIN, TECHNICAL_WIN
     };
 
@@ -69,8 +73,10 @@ namespace table {
 /******************************************************************************
                             BOARDSTATE CLASS
 *******************************************************************************/
-    class BoardState {
-    public : PointArray points;
+    class BoardState
+    {
+    public :
+        PointArray points;
     private:
         std::array<unsigned int, 2> done;
         std::array<unsigned int, 2> out;
