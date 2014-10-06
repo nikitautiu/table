@@ -186,7 +186,7 @@ namespace table
                 return std::make_pair(std::string("technical"), Color::BLACK);
             if(internal::check_for_technical(board, Color::WHITE))
                 return std::make_pair(std::string("technical"), Color::WHITE);
-            return std::make_pair(std::string("not_won"), Color::WHITE); // culoarea nu conteaza
+            return std::make_pair(NOT_WON_STRING, Color::WHITE); // culoarea nu conteaza
         }
 
 
@@ -298,7 +298,7 @@ namespace table
             auto win_type = (_current_phase->get_win_outcome()).first;
             if(win_type == "double")
             {
-                auto starting_pair = _opening_roll_phase->get_starting_dices();
+                auto starting_pair = _opening_roll_phase->get_starting_double();
                 _game_phase.reset(new RoGamePhase(starting_player, starting_pair)); // cu dubla de inceput
             }
             else
@@ -330,9 +330,27 @@ namespace table
         _current_player = starting_player;
     }
 
+    void RoOpeningRollPhase::preset_roll_dice(DicePair dice_pair)
+    {
+        IPhase::_current_dices = dice_pair;
+        _process_dices();
+    }
+
     void RoOpeningRollPhase::roll_dice(void)
     {
         IPhase::roll_dice();
+        _process_dices();
+    }
+
+    DicePair RoOpeningRollPhase::get_starting_double(void) const
+    {
+        if(_win_outcome.first != "double")
+            throw std::runtime_error("There hasn't been a double");
+        return _starting_dice_pair;
+    }
+
+    void RoOpeningRollPhase::_process_dices()
+    {
         _dice_helper.give_dice(_current_dices);
         if(_dice_helper.is_done())
         {
@@ -340,13 +358,6 @@ namespace table
             _win_outcome = std::make_pair(win_type_string, _dice_helper.get_winner());
             _starting_dice_pair = _dice_helper.get_double_pair().second;
         }
-    }
-
-    DicePair RoOpeningRollPhase::get_starting_dices(void) const
-    {
-        if(_win_outcome.first != "double")
-            throw std::runtime_error("There hasn't been a double");
-        return _starting_dice_pair;
     }
 
 /*******************************************************************************

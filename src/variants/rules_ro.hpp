@@ -80,8 +80,11 @@ namespace table
     public:
         RoOpeningRollPhase(Color); // creaza o faza de inceput cu un player care sa arunce primul
 
-        DicePair get_starting_dices(void) const;
-        virtual void roll_dice(void) override;
+        DicePair get_starting_double(void) const; // returneaza zarurile de inceput daca au fost dubla
+        virtual void roll_dice(void) override; // da cu zarul
+        virtual void preset_roll_dice(DicePair) override;
+    protected:
+        void _process_dices(void); // pune zarurile in _starting_dice_pair;
     };
 }
 #endif

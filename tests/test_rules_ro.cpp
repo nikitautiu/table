@@ -1,7 +1,8 @@
 #include "catch.hpp"
 #include "../src/variants/rules_ro.hpp"
+#include <iostream>
 
-TEST_CASE("RoDiceHelper functioneaza cum trebuie", "[ro_rules][RoDiceHelper]")
+TEST_CASE("RoDiceHelper functioneaza cum trebuie", "[rules_ro][RoDiceHelper]")
 {
     SECTION("se castiga din prima")
     {
@@ -100,5 +101,43 @@ TEST_CASE("RoDiceHelper functioneaza cum trebuie", "[ro_rules][RoDiceHelper]")
     }
 }
 
+TEST_CASE("RoOpeningRollPhase functioneaza cum trebuie", "[rules_ro][RoOpeningRollPhase]")
+{
+    SECTION("roll_dice functioneaza corect")
+    {
+        auto ro_opening = table::RoOpeningRollPhase(table::Color::WHITE);
+        ro_opening.roll_dice();
 
+        auto dices = ro_opening.get_current_dices();
+
+        REQUIRE(dices.first != 0);
+        REQUIRE(dices.second != 0);
+    }
+
+    SECTION("get_starting_doubles trebuie sa returneze exceptie")
+    {
+        auto ro_opening = table::RoOpeningRollPhase(table::Color::WHITE);
+        ro_opening.preset_roll_dice(std::make_pair(3, 4));
+
+
+        REQUIRE_THROWS(ro_opening.get_starting_double());
+    }
+
+    SECTION("get_starting_doubles nu returneaza exceptie deoarece exista duble")
+    {
+        auto ro_opening = table::RoOpeningRollPhase(table::Color::WHITE);
+        ro_opening.preset_roll_dice(std::make_pair(3, 3));
+        REQUIRE(ro_opening.get_current_dices() == std::make_pair(3, 3));
+
+        ro_opening.preset_roll_dice(std::make_pair(1, 2));
+        REQUIRE(ro_opening.get_current_dices() == std::make_pair(1, 2));
+
+
+        REQUIRE_NOTHROW(ro_opening.get_starting_double());
+
+        auto starting_double = ro_opening.get_starting_double();
+        REQUIRE(starting_double.first == starting_double.second);
+    }
+
+}
 

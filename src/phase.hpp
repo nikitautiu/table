@@ -58,7 +58,8 @@ namespace table
         virtual WinPair get_win_outcome(void) const; // returneaza starea de victorie(tipul victoriei/castigatorul)
                                              // Daca nu a castigat nimeni, "first" este egal cu not_won
 
-        virtual void roll_dice(void) = 0; // alea iacta est
+        virtual void roll_dice(void) = 0; // pune in _current_dices un set de dice-uri rng (alea iacta est)
+        virtual void preset_roll_dice(DicePair); // initializeaza iphase-ul cu un DicePair primit ca parametru
         virtual void submit_moves(Turn); // Primeste o serie de mutari, daca sunt invalide, exceptie, daca nu, le efectueaza
 
         virtual std::function<BoardState(BoardState, Turn)> get_board_processing_function(void) const; // returneaz funcita de procesare a tablelor
