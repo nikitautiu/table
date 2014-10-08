@@ -21,7 +21,6 @@ namespace table
 
     BoardState IPhase::get_current_board_state(void) const
     {
-
         return _current_state;
     }
 
@@ -60,11 +59,16 @@ namespace table
         // implemntarea implicita a functie dice roll
         // A se chema din implementarile derivate
 
-        if(_win_outcome.first != "not_won")
+        if(_win_outcome.first != NOT_WON_STRING)
             throw std::runtime_error("Dices can not be rolled after the round is over");
         if(_dice_obligation == DiceObligation::CAN_NOT_ROLL)
             throw std::runtime_error("The dices can not be rolled");
         _current_dices = double_dice_roll();
+    }
+
+    void IPhase::preset_roll_dice(DicePair dice_pair)
+    {
+        _current_dices = dice_pair;
     }
 
     void IPhase::submit_moves(Turn moves)

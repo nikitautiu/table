@@ -59,6 +59,8 @@ namespace table
     using PointArray = std::array <Point, NUM_POINTS>;
     using DicePair = std::pair <int, int>;
     using WinPair = std::pair<std::string, Color>; // pereche tip de victorie/invingator
+                                                   // NOT_WON_STRING, "double", "normal" ( ro_opening_roll_phase )
+                                                   // NOT_WON_STRING, "technical", "normal" (ro_game_phase)
 
     const auto NOT_WON_STRING = std::string("not_won");
 
