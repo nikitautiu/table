@@ -7,17 +7,21 @@
 #include <set>
 #include <utility>
 #include <exception>
+#include <string>
 
-namespace table {
+namespace table
+{
 /******************************************************************************
                         POINT CLASS
 *******************************************************************************/
-    enum class Color : int8_t {
+    enum class Color : int8_t
+    {
         // tipurile de table/jucatori
         WHITE = -1, BLACK = 1
     };
 
-    struct Point {
+    struct Point
+    {
         Color color;
         int number;
 
@@ -55,25 +59,28 @@ namespace table {
     using PointArray = std::array <Point, NUM_POINTS>;
     using DicePair = std::pair <int, int>;
     using WinPair = std::pair<std::string, Color>; // pereche tip de victorie/invingator
+                                                   // NOT_WON_STRING, "double", "normal" ( ro_opening_roll_phase )
+                                                   // NOT_WON_STRING, "technical", "normal" (ro_game_phase)
 
-    enum class RoundPhase : int8_t {
+    const auto NOT_WON_STRING = std::string("not_won");
+
+    enum class RoundPhase : int8_t
+    {
         STARTING, GAME, NORMAL_WIN, TECHNICAL_WIN
     };
-
-
 
 
 /******************************************************************************
                             BOARDSTATE CLASS
 *******************************************************************************/
-    class BoardState {
-    public : PointArray points;
+    class BoardState
+    {
+    public :
+        PointArray points;
     private:
         std::array<unsigned int, 2> done;
         std::array<unsigned int, 2> out;
     public:
-        void init (void);
-
         BoardState(void);                //constructor
         BoardState(const BoardState&);   //constructor copiere
 

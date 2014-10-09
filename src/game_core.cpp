@@ -1,10 +1,11 @@
 #include <exception>
 #include "game_core.hpp"
 #include "dice.hpp"
-#include "rules.hpp"
 
-namespace table {
-    Color operator-(Color color) {
+namespace table
+{
+    Color operator-(Color color)
+    {
         return (color == Color::WHITE ? Color::BLACK : Color::WHITE);
     }
 
@@ -17,65 +18,81 @@ namespace table {
 
     Point::Point(const Point& other) : color(other.color), number(other.number) {}
 
-    Point& Point::operator=(Point other) {
+
+    Point& Point::operator=(Point other)
+    {
         if(this != &other)
-            std::swap((*this), other);
+        {
+            std::swap(color, other.color);
+            std::swap(number, other.number);
+        }
         return (*this);
     }
 
-    Point& Point::operator=(int new_value) {
+    Point& Point::operator=(int new_value)
+    {
         number = new_value;
         return (*this);
     }
 
 
-    Point& Point::operator+=(int num) {
-        this->number += num;
+    Point& Point::operator+=(int num)
+    {
+        number += num;
         return (*this);
     }
 
-    Point& Point::operator-=(int num) {
-        this->number -= num;
+    Point& Point::operator-=(int num)
+    {
+        number -= num;
         return (*this);
     }
 
-    Point& Point::operator++(void) {
-        ++(this->number);
+    Point& Point::operator++(void)
+    {
+        ++number;
         return (*this);
     }
 
-    Point Point::operator++(int) {
+    Point Point::operator++(int)
+    {
         Point* old = this;
         ++(*this);
         return (*old);
     }
 
-    Point& Point::operator--(void) {
-        --(this->number);
+    Point& Point::operator--(void)
+    {
+        --number;
         return (*this);
     }
 
-    Point Point::operator--(int) {
+    Point Point::operator--(int)
+    {
         Point* old = this;
         --(*this);
         return (*old);
     }
 
-    const Point operator+(Point a, int num) {
+    const Point operator+(Point a, int num)
+    {
         a.number += num;
         return a;
     }
 
-    const Point operator-(Point a, int num) {
+    const Point operator-(Point a, int num)
+    {
         a.number -= num;
         return a;
     }
 
-    bool operator==(Point a, Point b) {
-        return ( a.color == b.color && a.number == b.number );
+    bool operator==(Point a, Point b)
+    {
+        return (a.color == b.color && a.number == b.number);
     }
 
-    bool operator!=(Point a, Point b) {
+    bool operator!=(Point a, Point b)
+    {
         return !(a.color == b.color && a.number == b.number);
     }
 
@@ -92,40 +109,39 @@ namespace table {
     {
     }
 
-    void BoardState::init (void) {
-        points[0]  = Point(Color::WHITE, 2), points[NUM_POINTS-1]  = Point(Color::BLACK, 2);
-        points[5]  = Point(Color::WHITE, 5), points[NUM_POINTS-6]  = Point(Color::BLACK, 5);
-        points[7]  = Point(Color::WHITE, 3), points[NUM_POINTS-8]  = Point(Color::BLACK, 3);
-        points[12] = Point(Color::WHITE, 5), points[NUM_POINTS-13] = Point(Color::BLACK, 5);
-    }
-
-    int BoardState::get_out(Color color) const {
+    int BoardState::get_out(Color color) const
+    {
         // primeste culoare si returneaza cate scoase de culoara aia is
         int poz = (color ==  Color::WHITE ? 0 : 1);
         return out[poz];
     }
 
-    int BoardState::get_done(Color color) const {
+    int BoardState::get_done(Color color) const
+    {
         // primeste culoare si returneaza cate de culoarea aia o terminat
         int poz = (color ==  Color::WHITE ? 0 : 1);
         return done[poz];
     }
 
-    void BoardState::set_out(Color color, int new_value) {
+    void BoardState::set_out(Color color, int new_value)
+    {
         int poz = (color ==  Color::WHITE ? 0 : 1);
         out[poz] =  new_value;
     }
 
-    void BoardState::set_done(Color color, int new_value) {
+    void BoardState::set_done(Color color, int new_value)
+    {
         int poz = (color ==  Color::WHITE ? 0 : 1);
         done[poz] = new_value;
     }
 
-    int BoardState::get_starting_pos(Color player) {
+    int BoardState::get_starting_pos(Color player)
+    {
         return (player == Color::WHITE ? 0 : NUM_POINTS - 1);
     }
 
-    int BoardState::get_move_sign(Color player) {
+    int BoardState::get_move_sign(Color player)
+    {
         return (player == Color::WHITE ? 1 : -1);
     }
 }

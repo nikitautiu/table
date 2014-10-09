@@ -18,7 +18,7 @@ namespace table
         std::array<int, 2> _score;
     protected:
         // detalii de implementare, clasele care mostenesc sa vor folosi de el
-        std::unique_ptr<IPhase> _current_phase;
+        IPhase* _current_phase;
         bool _game_is_over;
 
         void _set_score(Color, int); // folosita de mostenitori ca sa actualizeze scorul

@@ -2,6 +2,7 @@
 #define phase_hpp_guard
 
 #include <cstdint>
+#include <functional>
 #include "game_core.hpp"
 #include "match.hpp"
 #include "phase.hpp"
@@ -42,10 +43,11 @@ namespace table
         DicePair _current_dices;
         std::set<Turn> _legal_moves;
         WinPair _win_outcome;
+        std::function <BoardState(BoardState, Turn)> _board_process_func;
 
     public:
         IPhase(void); // constructor vid
-        IPhase(const IPhase&);
+        IPhase(const IPhase&); // constructor copiere
 
         virtual BoardState get_current_board_state(void) const; // returneaza starea curenta a tablei
         virtual PhaseType get_phase_type(void) const; // returneaza un TypePhase cu tipul fazei
@@ -56,8 +58,11 @@ namespace table
         virtual WinPair get_win_outcome(void) const; // returneaza starea de victorie(tipul victoriei/castigatorul)
                                              // Daca nu a castigat nimeni, "first" este egal cu not_won
 
-        virtual void roll_dice(void) = 0; // alea iacta est
+        virtual void roll_dice(void) = 0; // pune in _current_dices un set de dice-uri rng (alea iacta est)
+        virtual void preset_roll_dice(DicePair); // initializeaza iphase-ul cu un DicePair primit ca parametru
         virtual void submit_moves(Turn); // Primeste o serie de mutari, daca sunt invalide, exceptie, daca nu, le efectueaza
+
+        virtual std::function<BoardState(BoardState, Turn)> get_board_processing_function(void) const; // returneaz funcita de procesare a tablelor
     };
 
     class PhaseView : public IPhase
@@ -72,8 +77,13 @@ namespace table
         IPhase* _wrapped_phase;
         IMatch* _observer;
 
+
+
     public:
         PhaseView(IPhase&, IMatch&); // constructor wrapper
+
+        PhaseView(void) = delete;                // FACUTI
+        PhaseView(const IPhase&) = delete;       // INACCESIBILI
 
         // toate restul metodelor functioneaza ca un proxy catre obiectul IPhase continut
         virtual BoardState get_current_board_state(void) const override;
@@ -86,6 +96,8 @@ namespace table
 
         virtual void roll_dice(void) override;
         virtual void submit_moves(Turn) override;
+
+        virtual std::function<BoardState(BoardState, Turn)> get_board_processing_function(void) const override;
     };
 }
 #endif

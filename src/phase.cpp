@@ -14,13 +14,13 @@ namespace table
         _current_player(),
         _current_dices(),
         _legal_moves(),
-        _win_outcome()
+        _win_outcome(std::make_pair(NOT_WON_STRING, Color::WHITE)),
+        _board_process_func()
     {
     }
 
     BoardState IPhase::get_current_board_state(void) const
     {
-
         return _current_state;
     }
 
@@ -59,11 +59,16 @@ namespace table
         // implemntarea implicita a functie dice roll
         // A se chema din implementarile derivate
 
-        if(_win_outcome.first != "not_won")
+        if(_win_outcome.first != NOT_WON_STRING)
             throw std::runtime_error("Dices can not be rolled after the round is over");
         if(_dice_obligation == DiceObligation::CAN_NOT_ROLL)
             throw std::runtime_error("The dices can not be rolled");
         _current_dices = double_dice_roll();
+    }
+
+    void IPhase::preset_roll_dice(DicePair dice_pair)
+    {
+        _current_dices = dice_pair;
     }
 
     void IPhase::submit_moves(Turn moves)
@@ -75,6 +80,11 @@ namespace table
             throw std::runtime_error("Can not move during the opening roll");
         if(_legal_moves.find(moves) == _legal_moves.end())
             throw std::runtime_error("This is not a valid move");
+    }
+
+    std::function<BoardState(BoardState, Turn)> IPhase::get_board_processing_function(void) const
+    {
+        return _board_process_func;
     }
 
 /*******************************************************************************
@@ -130,5 +140,10 @@ namespace table
     {
         _wrapped_phase->submit_moves(moves);
         _observer->on_phase_action();
+    }
+
+    std::function<BoardState(BoardState, Turn)> PhaseView::get_board_processing_function(void) const
+    {
+        return _wrapped_phase->get_board_processing_function();
     }
 }
