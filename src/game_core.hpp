@@ -92,6 +92,9 @@ namespace table
         static int get_starting_pos(Color);
         static int get_move_sign(Color);
     };
+
+    bool operator==(const BoardState&, const BoardState&); // operator de egalitate. util pt test
+    bool operator!=(const BoardState&, const BoardState&); // inegalitate
 }
 
 #endif

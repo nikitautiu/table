@@ -144,4 +144,19 @@ namespace table
     {
         return (player == Color::WHITE ? 1 : -1);
     }
+
+    bool operator==(const BoardState& a, const BoardState& b)
+    {
+        return a.points == b.points
+               && a.get_done(Color::WHITE) == b.get_done(Color::WHITE)
+               && a.get_done(Color::BLACK) == b.get_done(Color::BLACK)
+               && a.get_out(Color::WHITE) == b.get_out(Color::WHITE)
+               && a.get_out(Color::BLACK) == b.get_out(Color::BLACK);
+    }
+
+    bool operator!=(const BoardState& a, const BoardState& b)
+    {
+        return !(a == b);
+    }
+
 }
