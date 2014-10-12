@@ -88,12 +88,14 @@ namespace table
 
     bool operator==(Point a, Point b)
     {
+        if(a.number == 0 && b.number == 0)
+            return true;
         return (a.color == b.color && a.number == b.number);
     }
 
     bool operator!=(Point a, Point b)
     {
-        return !(a.color == b.color && a.number == b.number);
+        return !(a == b);
     }
 
 
