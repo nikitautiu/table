@@ -141,3 +141,83 @@ TEST_CASE("RoOpeningRollPhase functioneaza cum trebuie", "[rules_ro][RoOpeningRo
 
 }
 
+namespace internal
+{
+    // genereaza o tabla romaneasca de inceput de joc
+    table::BoardState get_clean_ro_board(void)
+    {
+        auto board_state = table::BoardState();
+        auto& points = board_state.points;
+
+        points[0]  = table::Point(table::Color::WHITE, 2);
+        points[table::NUM_POINTS-1]  = table::Point(table::Color::BLACK, 2);
+        points[5]  = table::Point(table::Color::WHITE, 5);
+        points[table::NUM_POINTS-6]  = table::Point(table::Color::BLACK, 5);
+        points[7]  = table::Point(table::Color::WHITE, 3);
+        points[table::NUM_POINTS-8]  = table::Point(table::Color::BLACK, 3);
+        points[12] = table::Point(table::Color::WHITE, 5);
+        points[table::NUM_POINTS-13] = table::Point(table::Color::BLACK, 5);
+
+        return board_state;
+    }
+
+}
+
+TEST_CASE("RoGamePhase functioneaza cum trebuie", "[rules_ro][RoGamePhase]")
+{
+    SECTION("Constructorul RoGamePhase(Color, DicePair) initializeaza obiectul cum trebuie")
+    {
+        SECTION("DicePair implicit")
+        {
+            auto phase = table::RoGamePhase(table::Color::WHITE); //se initializeaza fara dubla de inceput
+
+            CHECK(phase.get_phase_type() == table::PhaseType::GAME_PHASE);
+            CHECK(phase.get_current_board_state() == internal::get_clean_ro_board());
+            CHECK(phase.get_dice_obligation() == table::DiceObligation::MUST_ROLL);
+            CHECK(phase.get_current_player() == table::Color::WHITE);
+        }
+
+        SECTION("DicePair explicit")
+        {
+            auto phase = table::RoGamePhase(table::Color::WHITE, table::DicePair(2, 3)); //se initializeaza cu dubla de inceput
+
+            CHECK(phase.get_phase_type() == table::PhaseType::GAME_PHASE);
+            CHECK(phase.get_current_board_state() == internal::get_clean_ro_board());
+            CHECK(phase.get_dice_obligation() == table::DiceObligation::CAN_NOT_ROLL);
+            CHECK(phase.get_current_player() == table::Color::WHITE);
+            CHECK(phase.get_current_dices() == table::DicePair(2, 3));
+        }
+    }
+
+    SECTION("Constructorul RoGamePhase(BoardState, Color, DicePair) initializeaza obiectul cum trebuie")
+    {
+        auto state_input = table::BoardState();
+
+        state_input.points[2] = table::Point(table::Color::WHITE, 3);
+        state_input.points[5] = table::Point(table::Color::WHITE, 7);
+        state_input.points[10] = table::Point(table::Color::BLACK, 9);
+        state_input.points[8] = table::Point(table::Color::WHITE, 1);
+
+        SECTION("DicePair implicit")
+        {
+            auto phase = table::RoGamePhase(state_input, table::Color::WHITE); //se initializeaza fara dubla de inceput
+
+            CHECK(phase.get_phase_type() == table::PhaseType::GAME_PHASE);
+            CHECK(phase.get_current_board_state() == state_input);
+            CHECK(phase.get_dice_obligation() == table::DiceObligation::MUST_ROLL);
+            CHECK(phase.get_current_player() == table::Color::WHITE);
+        }
+
+        SECTION("DicePair explicit")
+        {
+            auto phase = table::RoGamePhase(state_input, table::Color::WHITE, table::DicePair(2, 3)); //se initializeaza cu dubla de inceput
+
+            CHECK(phase.get_phase_type() == table::PhaseType::GAME_PHASE);
+            CHECK(phase.get_current_board_state() == state_input);
+            CHECK(phase.get_dice_obligation() == table::DiceObligation::CAN_NOT_ROLL);
+            CHECK(phase.get_current_player() == table::Color::WHITE);
+            CHECK(phase.get_current_dices() == table::DicePair(2, 3));
+        }
+    }
+}
+
